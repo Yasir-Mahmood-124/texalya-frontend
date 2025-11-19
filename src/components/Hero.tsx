@@ -5,27 +5,51 @@ import { useEffect, useState, useRef } from "react";
 
 const Hero = () => {
   const [displayedText, setDisplayedText] = useState("");
-  const [isTypingComplete, setIsTypingComplete] = useState(false);
-  const [isVisible, setIsVisible] = useState(true); // Start as visible for hero
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [loopNum, setLoopNum] = useState(0);
+  const [typingSpeed, setTypingSpeed] = useState(50);
+  const [isVisible, setIsVisible] = useState(true);
   const sectionRef = useRef<HTMLElement>(null);
-  const fullText = "Design, Automate and Grow with ";
-  const typingSpeed = 50; // milliseconds per character
 
-  // Typing effect
+  // Three rotating lines with similar meanings
+  const rotatingLines = [
+    "Design, Automate and Grow with AI",
+    "Create, Optimize and Scale with AI",
+    "Innovate, Streamline and Succeed with AI"
+  ];
+
+  // Rotating typing effect
   useEffect(() => {
-    let currentIndex = 0;
-    const interval = setInterval(() => {
-      if (currentIndex <= fullText.length) {
-        setDisplayedText(fullText.slice(0, currentIndex));
-        currentIndex++;
-      } else {
-        setIsTypingComplete(true);
-        clearInterval(interval);
-      }
-    }, typingSpeed);
+    const handleTyping = () => {
+      const currentIndex = loopNum % rotatingLines.length;
+      const fullText = rotatingLines[currentIndex];
 
-    return () => clearInterval(interval);
-  }, []);
+      if (!isDeleting) {
+        // Typing forward
+        setDisplayedText(fullText.substring(0, displayedText.length + 1));
+        setTypingSpeed(50); // Typing speed
+
+        // When word is complete, wait then start deleting
+        if (displayedText === fullText) {
+          setTimeout(() => setIsDeleting(true), 2000); // Pause at end of line
+        }
+      } else {
+        // Deleting backward
+        setDisplayedText(fullText.substring(0, displayedText.length - 1));
+        setTypingSpeed(30); // Deleting speed (faster)
+
+        // When word is deleted, move to next word
+        if (displayedText === "") {
+          setIsDeleting(false);
+          setLoopNum(loopNum + 1);
+          setTypingSpeed(500); // Pause before next line
+        }
+      }
+    };
+
+    const timer = setTimeout(handleTyping, typingSpeed);
+    return () => clearTimeout(timer);
+  }, [displayedText, isDeleting, loopNum, typingSpeed]);
 
   // Scroll animation that repeats every time
   useEffect(() => {
@@ -33,7 +57,7 @@ const Hero = () => {
       ([entry]) => {
         setIsVisible(entry.isIntersecting);
       },
-      { 
+      {
         threshold: 0.2,
         rootMargin: "-50px"
       }
@@ -50,21 +74,35 @@ const Hero = () => {
     };
   }, []);
 
+  // Split text to show "AI" in orange
+  const renderText = () => {
+    if (displayedText.endsWith("AI")) {
+      const textWithoutAI = displayedText.slice(0, -2);
+      return (
+        <>
+          <span className="text-white">{textWithoutAI}</span>
+          <span className="text-[#FFA548]">AI</span>
+        </>
+      );
+    }
+    return <span className="text-white">{displayedText}</span>;
+  };
+
   return (
-    <section 
+    <section
       ref={sectionRef}
-      className="flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8" 
+      className="flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8"
       style={{ minHeight: "calc(100vh - 64px)" }}
     >
-      <div className={`max-w-5xl mx-auto text-center transition-all duration-1000 ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-      }`}>
-        {/* Main Heading with Typing Effect */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight min-h-[2.5em]">
-          {displayedText}
-          {!isTypingComplete && <span className="animate-pulse">|</span>}
-
-          <span className={`text-[#FFA548] ${isTypingComplete ? 'animate-fadeIn' : 'opacity-0'}`}>AI</span>
+      <div
+        className={`max-w-5xl mx-auto text-center transition-all duration-1000 ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        }`}
+      >
+        {/* Main Heading with Rotating Typing Effect */}
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight min-h-[1.5em]">
+          {renderText()}
+          <span className="animate-pulse text-[#FFA548]">|</span>
         </h1>
 
         {/* Subheading */}
@@ -83,11 +121,11 @@ const Hero = () => {
         <div className="max-w-4xl mx-auto">
           <p className="text-sm sm:text-base md:text-lg text-[#918C94] leading-relaxed">
             Texalya is an AI-powered SaaS platform that unifies design,
-            automation, analytics and collaboration into one seamless ecosystem.
-            It replaces multiple tools from AI-driven creation to CRM and
-            scheduling with an integrated, scalable solution that helps
-            businesses of all sizes operate smarter, faster and more efficiently
-            through connected, intelligent innovation.
+            automation, analytics and collaboration into one seamless
+            ecosystem. It replaces multiple tools from AI-driven creation to
+            CRM and scheduling with an integrated, scalable solution that
+            helps businesses of all sizes operate smarter, faster and more
+            efficiently through connected, intelligent innovation.
           </p>
         </div>
       </div>

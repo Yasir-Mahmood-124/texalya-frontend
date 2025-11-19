@@ -65,13 +65,30 @@ const Contact = () => {
       >
         {/* Contact Form Card with Animated Background */}
         <div className="relative overflow-hidden rounded-2xl p-6 sm:p-8">
-          {/* Animated Background - Continuous Animation */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#FFA548] via-[#FF8C29] to-[#FFA548] animate-gradient-shift"></div>
+          {/* Base Gradient Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#FFA548] via-[#FF8C29] to-[#FFB366]"></div>
           
-          {/* Animated Circles - Continuous Animation */}
-          <div className="absolute top-0 left-0 w-64 h-64 bg-[#FF8C29] rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob"></div>
-          <div className="absolute top-0 right-0 w-64 h-64 bg-[#FFB366] rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob animation-delay-2000"></div>
-          <div className="absolute bottom-0 left-1/2 w-64 h-64 bg-[#FF9A3D] rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob animation-delay-4000"></div>
+          {/* Animated Background Elements */}
+          <div className="absolute inset-0 overflow-hidden">
+            {/* Large Floating Circles */}
+            <div className="absolute -top-20 -left-20 w-48 h-48 bg-white/10 rounded-full animate-float-slow"></div>
+            <div className="absolute top-10 right-10 w-64 h-64 bg-white/10 rounded-full animate-float-medium"></div>
+            <div className="absolute -bottom-10 left-1/4 w-56 h-56 bg-white/10 rounded-full animate-float-fast"></div>
+            
+            {/* Medium Floating Shapes */}
+            <div className="absolute top-1/4 right-1/4 w-32 h-32 bg-[#FF8C29]/20 rounded-full animate-bounce-slow"></div>
+            <div className="absolute bottom-1/4 right-5 w-40 h-40 bg-[#FFB366]/20 rounded-full animate-bounce-medium"></div>
+            <div className="absolute top-1/2 left-5 w-28 h-28 bg-white/15 rounded-full animate-pulse-slow"></div>
+            
+            {/* Small Floating Dots */}
+            <div className="absolute top-16 right-1/3 w-16 h-16 bg-white/30 rounded-full animate-float-fast"></div>
+            <div className="absolute bottom-20 left-1/4 w-12 h-12 bg-[#FF8C29]/30 rounded-full animate-bounce-fast"></div>
+            <div className="absolute top-1/3 right-10 w-20 h-20 bg-[#FFB366]/25 rounded-full animate-float-medium"></div>
+            
+            {/* Rotating Squares */}
+            <div className="absolute top-1/4 left-1/4 w-24 h-24 bg-gradient-to-br from-white/10 to-transparent rotate-45 animate-rotate-slow"></div>
+            <div className="absolute bottom-1/3 right-1/3 w-20 h-20 bg-gradient-to-br from-[#FF8C29]/15 to-transparent rotate-12 animate-rotate-medium"></div>
+          </div>
 
           {/* Form Content */}
           <div className="relative z-10">

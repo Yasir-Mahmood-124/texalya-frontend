@@ -154,4 +154,183 @@ body {
   .animate-pulse-glow {
     animation: pulse-glow 2s ease-in-out infinite;
   }
+
+  /* ============================================
+     BACKGROUND ANIMATIONS - WhyTexalya Section
+     ============================================ */
+
+  /* Float Animations - Smooth vertical & horizontal movement */
+  @keyframes float-slow {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    25% {
+      transform: translate(30px, -30px) scale(1.05);
+    }
+    50% {
+      transform: translate(-20px, -60px) scale(0.95);
+    }
+    75% {
+      transform: translate(-40px, -30px) scale(1.02);
+    }
+  }
+
+  @keyframes float-medium {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(-40px, 40px) scale(1.08);
+    }
+    66% {
+      transform: translate(40px, -40px) scale(0.92);
+    }
+  }
+
+  @keyframes float-fast {
+    0%, 100% {
+      transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+    25% {
+      transform: translate(25px, -25px) rotate(5deg) scale(1.1);
+    }
+    50% {
+      transform: translate(-25px, 25px) rotate(-5deg) scale(0.9);
+    }
+    75% {
+      transform: translate(25px, 25px) rotate(3deg) scale(1.05);
+    }
+  }
+
+  .animate-float-slow {
+    animation: float-slow 20s ease-in-out infinite;
+  }
+
+  .animate-float-medium {
+    animation: float-medium 15s ease-in-out infinite;
+  }
+
+  .animate-float-fast {
+    animation: float-fast 10s ease-in-out infinite;
+  }
+
+  /* Bounce Animations - Up and down movement */
+  @keyframes bounce-slow {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-40px);
+    }
+  }
+
+  @keyframes bounce-medium {
+    0%, 100% {
+      transform: translateY(0) scale(1);
+    }
+    50% {
+      transform: translateY(-30px) scale(1.05);
+    }
+  }
+
+  @keyframes bounce-fast {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-25px);
+    }
+  }
+
+  .animate-bounce-slow {
+    animation: bounce-slow 8s ease-in-out infinite;
+  }
+
+  .animate-bounce-medium {
+    animation: bounce-medium 6s ease-in-out infinite;
+  }
+
+  .animate-bounce-fast {
+    animation: bounce-fast 4s ease-in-out infinite;
+  }
+
+  /* Pulse Animations - Scale in and out */
+  @keyframes pulse-slow {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.15;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 0.25;
+    }
+  }
+
+  @keyframes pulse-medium {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.2;
+    }
+    50% {
+      transform: scale(1.15);
+      opacity: 0.3;
+    }
+  }
+
+  .animate-pulse-slow {
+    animation: pulse-slow 6s ease-in-out infinite;
+  }
+
+  .animate-pulse-medium {
+    animation: pulse-medium 4s ease-in-out infinite;
+  }
+
+  /* Rotate Animations - Continuous rotation */
+  @keyframes rotate-slow {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes rotate-medium {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animate-rotate-slow {
+    animation: rotate-slow 30s linear infinite;
+  }
+
+  .animate-rotate-medium {
+    animation: rotate-medium 20s linear infinite;
+  }
+
+  /* Slide Down Animation - Vertical movement */
+  @keyframes slide-down {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.2;
+    }
+    90% {
+      opacity: 0.2;
+    }
+    100% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+  }
+
+  .animate-slide-down {
+    animation: slide-down 8s linear infinite;
+  }
 }
