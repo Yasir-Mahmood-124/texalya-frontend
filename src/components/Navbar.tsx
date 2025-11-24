@@ -12,16 +12,10 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="w-full border border-[#FEFEFE] bg-transparent mt-4 rounded-lg"
-            style={{
-                width: "100%",
-                maxWidth: '95%',
-                marginLeft: "35px"
-            }}
-        >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav className="w-[95%] mx-auto border border-[#FEFEFE] bg-transparent mt-4 rounded-full overflow-hidden">
+            <div className="w-full px-6 sm:px-8 lg:px-12">
                 <div className="flex items-center justify-between h-16">
-                    {/* Logo */}
+                    {/* Logo - Stuck to Left */}
                     <div className="flex-shrink-0">
                         <Link href="/">
                             <Image
@@ -51,8 +45,8 @@ const Navbar = () => {
                         </Link>
                     </div>
 
-                    {/* Desktop Get Started Button with Animated Gradient */}
-                    <div className="hidden md:block">
+                    {/* Desktop Get Started Button - Stuck to Right */}
+                    <div className="hidden md:block flex-shrink-0">
                         <Link href="#get-started">
                             <button className="animate-button-gradient text-white px-6 py-2 rounded-full hover:scale-105 hover:shadow-lg transition-all duration-300 text-sm font-medium">
                                 Get Started
