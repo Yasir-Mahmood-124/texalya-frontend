@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen pt-20">
       {/* Hero Section - Fits in one screen */}
       <Hero />
 

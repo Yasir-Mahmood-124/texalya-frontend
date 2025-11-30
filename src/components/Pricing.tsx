@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { Check } from "lucide-react";
 
 const Pricing = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -32,111 +33,135 @@ const Pricing = () => {
   const plans = [
     {
       id: 1,
-      name: "Freemium",
+      name: "Free",
       price: "$0",
-      period: "/FOREVER",
+      period: "/month",
+      description: "Perfect for getting started",
       features: [
-        "100 AI Credits",
+        "100 AI Credits per month",
         "1 Workspace",
         "10 Patterns per month",
         "Basic Fabric Estimator",
-        "Community Support",
+        "Community Support"
       ],
+      buttonText: "Start Free Trial",
+      buttonStyle: "bg-gradient-to-r from-[#FFA548] to-[#FF8C29] text-white hover:shadow-2xl hover:scale-105"
     },
     {
       id: 2,
       name: "Pro",
       price: "$29",
-      period: "/MONTH",
+      period: "/month",
+      description: "Best for growing businesses",
       features: [
-        "500 AI Credits",
+        "500 AI Credits per month",
         "3 Workspaces",
         "60 Scheduling per month",
         "Lead Generation & CRM",
         "Document Generation",
-        "Priority Support",
+        "Priority Support"
       ],
-      popular: true,
+      buttonText: "Start Free Trial",
+      buttonStyle: "bg-gradient-to-r from-[#FFA548] to-[#FF8C29] text-white hover:shadow-2xl hover:scale-105"
     },
     {
       id: 3,
       name: "Enterprise",
       price: "$89",
-      period: "/MONTH",
+      period: "/month",
+      description: "For large-scale operations",
       features: [
-        "5000 AI Credits",
+        "5000 AI Credits per month",
         "Unlimited Workspaces",
         "Unlimited Scheduling",
         "Advanced Analytics & Insights",
         "Custom Integrations",
-        "Dedicated Account Manager",
+        "Dedicated Account Manager"
       ],
+      buttonText: "Start Free Trial",
+      buttonStyle: "bg-gradient-to-r from-[#FFA548] to-[#FF8C29] text-white hover:shadow-2xl hover:scale-105"
     },
   ];
 
   return (
-    <section ref={sectionRef} id="pricing" className="bg-black py-10 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Section Title with Scroll Animation */}
-        <h2
-          className={`text-3xl sm:text-4xl font-bold text-white text-center mb-6 sm:mb-8 transition-all duration-1000 ${
+    <section ref={sectionRef} id="pricing" className="relative py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      {/* Background Decorative Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-[#FFA548]/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#FF8C29]/5 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="relative max-w-7xl mx-auto">
+        {/* Section Header */}
+        <div
+          className={`text-center mb-8 sm:mb-12 transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
-          Choose Your Plan
-        </h2>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3">
+            Choose Your Plan
+          </h2>
+          <p className="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto">
+            Select the perfect plan for your business needs
+          </p>
+        </div>
 
-        {/* Pricing Cards Grid with Staggered Animation */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-5 max-w-6xl mx-auto">
+        {/* Pricing Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 max-w-6xl mx-auto">
           {plans.map((plan, index) => (
             <div
               key={plan.id}
-              className={`relative bg-[#D9D9D9] rounded-xl p-5 sm:p-6 flex flex-col transition-all duration-700 hover:scale-105 hover:shadow-xl ${
+              className={`relative bg-white rounded-2xl p-6 flex flex-col transition-all duration-700 hover:scale-105 shadow-xl ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-10"
-              } ${plan.popular ? "ring-2 ring-white" : ""}`}
+              }`}
               style={{ 
-                transitionDelay: isVisible ? `${index * 200}ms` : '0ms'
+                transitionDelay: isVisible ? `${index * 150}ms` : '0ms'
               }}
             >
-              {/* Popular Badge */}
-              {plan.popular && (
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-white text-black px-3 py-1 rounded-full text-xs font-bold">
-                    MOST POPULAR
-                  </span>
-                </div>
-              )}
-
-              {/* Plan Name */}
-              <h3 className="text-xl sm:text-2xl font-bold text-black mb-3">
-                {plan.name}
-              </h3>
-
-              {/* Price */}
+              {/* Plan Header */}
               <div className="mb-4">
-                <span className="text-3xl sm:text-4xl font-bold text-black">
-                  {plan.price}
-                </span>
-                <span className="text-sm sm:text-base text-black">
-                  {plan.period}
-                </span>
+                <h3 className="text-xl font-bold text-black mb-1">
+                  {plan.name}
+                </h3>
+                <p className="text-gray-600 text-sm">
+                  {plan.description}
+                </p>
               </div>
 
-              {/* Subscribe Button */}
-              <Link href="#subscribe" className="mb-4">
-                <button className="w-full bg-black text-white px-4 py-2.5 rounded-lg hover:bg-gray-800 transition-all duration-200 text-sm font-semibold hover:scale-105 hover:shadow-lg">
-                  {plan.id === 1 ? "GET STARTED" : "SUBSCRIBE"}
+              {/* Price */}
+              <div className="mb-5">
+                <div className="flex items-baseline">
+                  <span className="text-4xl font-bold text-black">
+                    {plan.price}
+                  </span>
+                  <span className="text-gray-600 ml-2 text-base">
+                    {plan.period}
+                  </span>
+                </div>
+              </div>
+
+              {/* CTA Button */}
+              <Link href="#subscribe" className="mb-6">
+                <button 
+                  className={`w-full py-3 rounded-xl font-semibold transition-all duration-300 text-sm ${plan.buttonStyle}`}
+                >
+                  {plan.buttonText}
                 </button>
               </Link>
 
               {/* Features List */}
-              <div className="space-y-2 flex-grow">
+              <div className="space-y-3 flex-grow">
+                <p className="text-xs font-semibold text-gray-900 mb-3">
+                  What's included:
+                </p>
                 {plan.features.map((feature, featureIndex) => (
-                  <div key={featureIndex} className="flex items-start">
-                    <span className="text-black mr-2 text-sm">✓</span>
-                    <p className="text-xs sm:text-sm text-black leading-relaxed">
+                  <div key={featureIndex} className="flex items-start gap-2.5">
+                    <div className="flex-shrink-0 w-4 h-4 rounded-full bg-[#FFA548]/10 flex items-center justify-center mt-0.5">
+                      <Check className="w-3 h-3 text-[#FFA548]" />
+                    </div>
+                    <p className="text-xs text-gray-700 leading-relaxed">
                       {feature}
                     </p>
                   </div>
@@ -144,6 +169,33 @@ const Pricing = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Bottom CTA */}
+        <div
+          className={`text-center mt-12 sm:mt-16 transition-all duration-1000 delay-500 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}
+        >
+          <div className="max-w-2xl mx-auto">
+            <div className="inline-block mb-4">
+              
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">
+              Need a Custom Solution?
+            </h3>
+            <p className="text-gray-400 mb-8 text-base leading-relaxed">
+              Contact our sales team for custom pricing, advanced features, and dedicated support tailored to your organization.
+            </p>
+            <Link href="#contact">
+              <button className="bg-gradient-to-r from-[#FFA548] to-[#FF8C29] text-white px-10 py-4 rounded-xl font-semibold transition-all duration-300 hover:shadow-2xl hover:scale-105 inline-flex items-center gap-2">
+                Schedule a meeting
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     </section>
