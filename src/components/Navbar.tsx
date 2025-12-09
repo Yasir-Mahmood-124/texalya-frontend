@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Logo from "@/assets/images/logo.png";
+import Logo from "@/assets/images/Logo4.png"
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -62,7 +62,7 @@ const Navbar = () => {
             <div className="w-full pl-4 pr-3 lg:pl-6 lg:pr-4">
                 <div className="flex items-center justify-between h-14">
                     {/* Logo - Stuck to Left */}
-                    <div className="flex-shrink-0 -ml-4 lg:-ml-12">
+                    <div className="flex-shrink-0 -ml-14 lg:-ml-14">
                         <Link href="/">
                             <Image 
                                 src={Logo}
