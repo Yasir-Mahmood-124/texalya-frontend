@@ -1,8 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Colors will be injected dynamically from colors.ts */
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --gold-primary: #bea56f;
+  --gold-secondary: #bea56f;
+  --gold-light: #bea56f;
+  --gold-dark: #bea56f;
+  --gold-accent: #bea56f;
 }
 
 :root {
@@ -10,13 +16,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
@@ -100,10 +99,10 @@ body {
   .animate-button-gradient {
     background: linear-gradient(
       90deg,
-      #FFA548,
-      #FF8C29,
-      #FFB366,
-      #FFA548
+      var(--gold-primary),
+      var(--gold-secondary),
+      var(--gold-light),
+      var(--gold-primary)
     );
     background-size: 200% 200%;
     animation: button-gradient 3s ease infinite;
@@ -144,10 +143,10 @@ body {
   /* Pulsing Glow Animation */
   @keyframes pulse-glow {
     0%, 100% {
-      box-shadow: 0 0 20px rgba(255, 165, 72, 0.5);
+      box-shadow: 0 0 20px color-mix(in srgb, var(--gold-primary) 50%, transparent);
     }
     50% {
-      box-shadow: 0 0 40px rgba(255, 165, 72, 0.8);
+      box-shadow: 0 0 40px color-mix(in srgb, var(--gold-primary) 80%, transparent);
     }
   }
 
@@ -350,5 +349,104 @@ body {
 
   .rotate-y-180 {
     transform: rotateY(180deg);
+  }
+
+  /* ============================================
+     X-SHAPE - Two Diagonal Ribbons Crossing
+     ============================================ */
+  
+  /* Pure X-Shape - Two diagonal ribbons forming an X */
+  .x-shape {
+    clip-path: polygon(
+      30% 0%, 50% 20%, 70% 0%, 100% 0%, 100% 30%, 80% 50%, 100% 70%, 100% 100%, 70% 100%, 50% 80%, 30% 100%, 0% 100%, 0% 70%, 20% 50%, 0% 30%, 0% 0%
+    );
+  }
+
+  /* ============================================
+     X-SHAPE SIZE UTILITIES
+     ============================================ */
+  
+  .x-lg {
+    width: 16rem;
+    height: 16rem;
+  }
+  
+  .x-lg-xl {
+    width: 18rem;
+    height: 18rem;
+  }
+  
+  .x-md {
+    width: 10rem;
+    height: 10rem;
+  }
+  
+  .x-md-lg {
+    width: 11rem;
+    height: 11rem;
+  }
+  
+  .x-sm {
+    width: 5rem;
+    height: 5rem;
+  }
+  
+  .x-sm-md {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  /* ============================================
+     X-SHAPE COLOR UTILITIES
+     ============================================ */
+  
+  .x-gold-primary {
+    background-color: color-mix(in srgb, var(--gold-primary) 10%, transparent);
+  }
+  
+  .x-gold-secondary {
+    background-color: color-mix(in srgb, var(--gold-secondary) 12%, transparent);
+  }
+  
+  .x-gold-light {
+    background-color: color-mix(in srgb, var(--gold-light) 10%, transparent);
+  }
+  
+  .x-gold-dark {
+    background-color: color-mix(in srgb, var(--gold-dark) 8%, transparent);
+  }
+  
+  .x-gold-accent {
+    background-color: color-mix(in srgb, var(--gold-accent) 10%, transparent);
+  }
+  
+  .x-white {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+  
+  .x-white-medium {
+    background-color: rgba(255, 255, 255, 0.10);
+  }
+  
+  .x-white-strong {
+    background-color: rgba(255, 255, 255, 0.12);
+  }
+
+  /* ============================================
+     X-SHAPE BACKGROUND CONTAINER
+     ============================================ */
+  
+  .x-bg-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  
+  .x-bg-container-fixed {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
   }
 }

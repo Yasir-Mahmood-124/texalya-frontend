@@ -11,38 +11,32 @@ const Hero = () => {
   const [isVisible, setIsVisible] = useState(true);
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Three rotating lines with similar meanings
   const rotatingLines = [
     "Design, Automate and Grow with AI",
     "Create, Optimize and Scale with AI",
     "Innovate, Streamline and Succeed with AI"
   ];
 
-  // Rotating typing effect
   useEffect(() => {
     const handleTyping = () => {
       const currentIndex = loopNum % rotatingLines.length;
       const fullText = rotatingLines[currentIndex];
 
       if (!isDeleting) {
-        // Typing forward
         setDisplayedText(fullText.substring(0, displayedText.length + 1));
-        setTypingSpeed(50); // Typing speed
+        setTypingSpeed(50);
 
-        // When word is complete, wait then start deleting
         if (displayedText === fullText) {
-          setTimeout(() => setIsDeleting(true), 2000); // Pause at end of line
+          setTimeout(() => setIsDeleting(true), 2000);
         }
       } else {
-        // Deleting backward
         setDisplayedText(fullText.substring(0, displayedText.length - 1));
-        setTypingSpeed(30); // Deleting speed (faster)
+        setTypingSpeed(30);
 
-        // When word is deleted, move to next word
         if (displayedText === "") {
           setIsDeleting(false);
           setLoopNum(loopNum + 1);
-          setTypingSpeed(500); // Pause before next line
+          setTypingSpeed(500);
         }
       }
     };
@@ -51,7 +45,6 @@ const Hero = () => {
     return () => clearTimeout(timer);
   }, [displayedText, isDeleting, loopNum, typingSpeed]);
 
-  // Scroll animation that repeats every time
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -74,14 +67,13 @@ const Hero = () => {
     };
   }, []);
 
-  // Split text to show "AI" in orange
   const renderText = () => {
     if (displayedText.endsWith("AI")) {
       const textWithoutAI = displayedText.slice(0, -2);
       return (
         <>
           <span className="text-white">{textWithoutAI}</span>
-          <span className="text-[#FFA548]">AI</span>
+          <span className="text-[var(--gold-primary)]">AI</span>
         </>
       );
     }
@@ -91,33 +83,29 @@ const Hero = () => {
   return (
     <section
       ref={sectionRef}
-      className="flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8"
+      className="relative flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden x-bg-hero"
       style={{ minHeight: "calc(100vh - 64px)" }}
     >
       <div
-        className={`max-w-5xl mx-auto text-center transition-all duration-1000 ${
+        className={`relative z-10 max-w-5xl mx-auto text-center transition-all duration-1000 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         }`}
       >
-        {/* Main Heading with Rotating Typing Effect */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight min-h-[1.5em]">
           {renderText()}
-          <span className="animate-pulse text-[#FFA548]">|</span>
+          <span className="animate-pulse text-[var(--gold-primary)]">|</span>
         </h1>
 
-        {/* Subheading */}
         <p className="text-lg sm:text-xl md:text-2xl text-[#918C94] mb-6 sm:mb-8">
           Texalya - Your Intelligent SaaS Solution
         </p>
 
-        {/* Get Started Button with Animated Gradient */}
-        <Link href="#get-started">
+        <Link href="/signup">
           <button className="animate-button-gradient text-white px-8 py-3 rounded-lg hover:scale-105 hover:shadow-xl transition-all duration-300 text-base sm:text-lg font-medium mb-12 sm:mb-16">
             Get Started
           </button>
         </Link>
 
-        {/* Description Text */}
         <div className="max-w-4xl mx-auto">
           <p className="text-sm sm:text-base md:text-lg text-[#918C94] leading-relaxed">
             Texalya is an AI-powered SaaS platform that unifies design,
