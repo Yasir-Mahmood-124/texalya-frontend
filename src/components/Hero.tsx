@@ -100,7 +100,7 @@ const Hero = () => {
           Texalya - Your Intelligent SaaS Solution
         </p>
 
-        <Link href="#get-started">
+        <Link href="/signup">
           <button className="animate-button-gradient text-white px-8 py-3 rounded-lg hover:scale-105 hover:shadow-xl transition-all duration-300 text-base sm:text-lg font-medium mb-12 sm:mb-16">
             Get Started
           </button>

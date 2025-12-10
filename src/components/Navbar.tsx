@@ -87,7 +87,7 @@ const Navbar = () => {
                     </div>
 
                     <div className="hidden md:block flex-shrink-0">
-                        <Link href="#get-started">
+                        <Link href="/signup">
                             <button 
                                 className={`px-6 py-2.5 rounded-full hover:scale-105 hover:shadow-lg text-sm font-medium text-white transition-all duration-500 ${
                                     isOverGolden 
@@ -154,7 +154,7 @@ const Navbar = () => {
                             Contact
                         </Link>
                         <Link
-                            href="#get-started"
+                            href="/signup"
                             className="block px-3 py-2"
                             onClick={() => setIsMenuOpen(false)}
                         >

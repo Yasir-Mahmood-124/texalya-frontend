@@ -1,6 +1,7 @@
 "use client";
 
 import { Lightbulb, Settings, Rocket, Calendar, Users, TrendingUp } from "lucide-react";
+import Link from "next/link";
 
 const WhyTexalya = () => {
     const features = [
@@ -39,18 +40,18 @@ const WhyTexalya = () => {
     return (
         <section className="relative w-full min-h-screen py-16 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
             <div className="absolute inset-0 bg-gradient-to-br from-[var(--gold-primary)] via-[var(--gold-secondary)] to-[var(--gold-light)]"></div>
-            
+
             <div className="x-bg-container-fixed">
                 <div className="absolute top-20 left-1/4 x-lg x-gold-primary x-shape animate-float-slow"></div>
                 <div className="absolute bottom-32 right-1/4 x-lg-xl x-white-medium x-shape animate-float-medium"></div>
                 <div className="absolute top-1/2 right-1/3 x-lg x-gold-secondary x-shape animate-float-fast"></div>
                 <div className="absolute bottom-1/4 left-1/3 x-lg x-gold-light x-shape animate-float-slow"></div>
-                
+
                 <div className="absolute top-1/4 right-20 x-md x-white-medium x-shape animate-bounce-slow"></div>
                 <div className="absolute bottom-1/4 left-24 x-md-lg x-gold-dark x-shape animate-pulse-slow"></div>
                 <div className="absolute top-2/3 left-1/3 x-md x-gold-accent x-shape animate-bounce-medium"></div>
                 <div className="absolute top-1/3 right-1/4 x-md x-white-strong x-shape animate-float-medium"></div>
-                
+
                 <div className="absolute top-40 right-1/2 x-sm-md x-gold-primary x-shape animate-float-fast"></div>
                 <div className="absolute bottom-40 left-1/2 x-sm x-white-strong x-shape animate-bounce-fast"></div>
                 <div className="absolute top-1/3 left-20 x-sm-md x-gold-secondary x-shape animate-float-medium"></div>
@@ -73,7 +74,7 @@ const WhyTexalya = () => {
                                     <div className="bg-gradient-to-br from-[var(--gold-primary)] to-[var(--gold-secondary)] rounded-xl w-16 h-16 flex items-center justify-center mb-4 flex-shrink-0 shadow-md text-white">
                                         {feature.icon}
                                     </div>
-                                    
+
                                     <h3 className="text-lg lg:text-xl font-bold text-black">
                                         {feature.title}
                                     </h3>
@@ -83,11 +84,11 @@ const WhyTexalya = () => {
                                     <div className="bg-gradient-to-br from-[var(--gold-primary)] to-[var(--gold-secondary)] rounded-xl w-12 h-12 flex items-center justify-center mb-3 flex-shrink-0 shadow-md text-white">
                                         {feature.icon}
                                     </div>
-                                    
+
                                     <h3 className="text-base lg:text-lg font-bold text-white mb-3">
                                         {feature.title}
                                     </h3>
-                                    
+
                                     <p className="text-xs lg:text-sm text-gray-300 leading-relaxed">
                                         {feature.description}
                                     </p>
@@ -98,9 +99,12 @@ const WhyTexalya = () => {
                 </div>
 
                 <div className="flex justify-center">
-                    <button className="bg-black text-white px-10 py-3.5 rounded-full text-sm lg:text-base font-semibold hover:scale-105 hover:shadow-2xl transition-all duration-300">
-                        Get Started
-                    </button>
+                    <Link  href="/signup">
+                        <button className="bg-black text-white px-10 py-3.5 rounded-full text-sm lg:text-base font-semibold hover:scale-105 hover:shadow-2xl transition-all duration-300">
+                            Get Started
+                        </button>
+                    </Link>
+
                 </div>
             </div>
         </section>
