@@ -12,7 +12,6 @@ const Contact = () => {
     message: "",
   });
 
-  // Scroll animation that repeats every time section enters/exits viewport
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -47,9 +46,7 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
     console.log("Form submitted:", formData);
-    // You can add your form submission logic here
   };
 
   return (
@@ -64,11 +61,10 @@ const Contact = () => {
         }`}
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Left Side - Text Content */}
           <div className="space-y-6">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
               Get in touch with{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFA548] to-[#FF8C29]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--gold-primary)] to-[var(--gold-secondary)]">
                 Texalya
               </span>
             </h2>
@@ -76,11 +72,10 @@ const Contact = () => {
               Questions, ideas, or feedback? We'd love to hear from you.
             </p>
             
-            {/* Optional: Add contact info */}
             <div className="pt-4 space-y-4">
               <div className="flex items-start space-x-3">
                 <svg
-                  className="w-6 h-6 text-[#FFA548] mt-1 flex-shrink-0"
+                  className="w-6 h-6 text-[var(--gold-primary)] mt-1 flex-shrink-0"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -100,7 +95,7 @@ const Contact = () => {
               
               <div className="flex items-start space-x-3">
                 <svg
-                  className="w-6 h-6 text-[#FFA548] mt-1 flex-shrink-0"
+                  className="w-6 h-6 text-[var(--gold-primary)] mt-1 flex-shrink-0"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -126,43 +121,27 @@ const Contact = () => {
             </div>
           </div>
 
-          {/* Right Side - Contact Form */}
           <div className="relative overflow-hidden rounded-2xl p-6 sm:p-8">
-            {/* Base Gradient Background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#FFA548] via-[#FF8C29] to-[#FFB366]"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-[var(--gold-primary)] via-[var(--gold-secondary)] to-[var(--gold-light)]"></div>
             
-            {/* Animated Background Elements */}
-            <div className="absolute inset-0 overflow-hidden">
-              {/* Large Floating Circles */}
-              <div className="absolute -top-20 -left-20 w-48 h-48 bg-white/10 rounded-full animate-float-slow"></div>
-              <div className="absolute top-10 right-10 w-64 h-64 bg-white/10 rounded-full animate-float-medium"></div>
-              <div className="absolute -bottom-10 left-1/4 w-56 h-56 bg-white/10 rounded-full animate-float-fast"></div>
-              
-              {/* Medium Floating Shapes */}
-              <div className="absolute top-1/4 right-1/4 w-32 h-32 bg-[#FF8C29]/20 rounded-full animate-bounce-slow"></div>
-              <div className="absolute bottom-1/4 right-5 w-40 h-40 bg-[#FFB366]/20 rounded-full animate-bounce-medium"></div>
-              <div className="absolute top-1/2 left-5 w-28 h-28 bg-white/15 rounded-full animate-pulse-slow"></div>
-              
-              {/* Small Floating Dots */}
-              <div className="absolute top-16 right-1/3 w-16 h-16 bg-white/30 rounded-full animate-float-fast"></div>
-              <div className="absolute bottom-20 left-1/4 w-12 h-12 bg-[#FF8C29]/30 rounded-full animate-bounce-fast"></div>
-              <div className="absolute top-1/3 right-10 w-20 h-20 bg-[#FFB366]/25 rounded-full animate-float-medium"></div>
-              
-              {/* Rotating Squares */}
-              <div className="absolute top-1/4 left-1/4 w-24 h-24 bg-gradient-to-br from-white/10 to-transparent rotate-45 animate-rotate-slow"></div>
-              <div className="absolute bottom-1/3 right-1/3 w-20 h-20 bg-gradient-to-br from-[#FF8C29]/15 to-transparent rotate-12 animate-rotate-medium"></div>
+            <div className="x-bg-container">
+              <div className="absolute top-10 right-20 x-lg x-gold-primary x-shape animate-float-slow"></div>
+              <div className="absolute -bottom-16 left-16 x-lg x-white-medium x-shape animate-float-medium"></div>
+              <div className="absolute top-1/2 left-1/3 x-lg x-gold-secondary x-shape animate-float-fast"></div>
+              <div className="absolute top-1/3 left-1/4 x-md x-white-medium x-shape animate-bounce-slow"></div>
+              <div className="absolute bottom-1/3 right-1/4 x-md x-gold-light x-shape animate-pulse-slow"></div>
+              <div className="absolute top-2/3 right-1/3 x-md x-gold-dark x-shape animate-bounce-medium"></div>
+              <div className="absolute top-20 left-1/3 x-sm x-white-strong x-shape animate-float-fast"></div>
+              <div className="absolute bottom-24 right-1/3 x-sm x-gold-accent x-shape animate-bounce-fast"></div>
+              <div className="absolute top-1/2 right-1/2 x-sm-md x-gold-primary x-shape animate-pulse-slow"></div>
             </div>
 
-            {/* Form Content */}
             <div className="relative z-10">
-              {/* Form Title */}
               <h3 className="text-xl sm:text-2xl font-bold text-black mb-4 sm:mb-5">
                 Send us a message
               </h3>
 
-              {/* Form */}
               <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
-                {/* Full Name Input */}
                 <input
                   type="text"
                   name="fullName"
@@ -173,7 +152,6 @@ const Contact = () => {
                   required
                 />
 
-                {/* Email Input */}
                 <input
                   type="email"
                   name="email"
@@ -184,7 +162,6 @@ const Contact = () => {
                   required
                 />
 
-                {/* Message Subject Input */}
                 <input
                   type="text"
                   name="subject"
@@ -195,7 +172,6 @@ const Contact = () => {
                   required
                 />
 
-                {/* Message Textarea */}
                 <textarea
                   name="message"
                   value={formData.message}
@@ -206,7 +182,6 @@ const Contact = () => {
                   required
                 />
 
-                {/* Submit Button */}
                 <div className="flex justify-center pt-1">
                   <button
                     type="submit"

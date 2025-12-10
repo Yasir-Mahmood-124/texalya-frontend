@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import ThemeProvider from "@/utils/theme-provider";
 
 export const metadata: Metadata = {
   title: "Texalya",
@@ -15,8 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-black min-h-screen">
-        <Navbar />
-        {children}
+        <ThemeProvider>
+          {/* <Navbar /> */}
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

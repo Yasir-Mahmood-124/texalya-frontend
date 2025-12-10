@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "@/assets/images/logo.png";
+import Logo from "@/assets/images/Logo4.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -55,21 +55,18 @@ const Footer = () => {
       ref={footerRef}
       className="bg-black border-t border-gray-800/50 relative overflow-hidden"
     >
-      {/* Background Decorative Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-[#FFA548]/5 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-[#FF8C29]/5 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-20 -left-20 w-80 h-80 opacity-5 rounded-full blur-3xl" style={{ backgroundColor: 'var(--gold-primary)' }}></div>
+        <div className="absolute -bottom-20 -right-20 w-80 h-80 opacity-5 rounded-full blur-3xl" style={{ backgroundColor: 'var(--gold-secondary)' }}></div>
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Main Footer Content */}
         <div 
           className={`py-12 sm:py-16 transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
-            {/* Brand Column */}
             <div className="lg:col-span-2">
               <Link href="/" className="inline-block mb-4">
                 <Image 
@@ -84,13 +81,12 @@ const Footer = () => {
                 Empowering businesses with innovative AI solutions to streamline operations and drive growth.
               </p>
               
-              {/* Social Links */}
               <div className="flex items-center gap-4">
                 <a 
                   href="https://twitter.com" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-gray-800/50 hover:bg-[#FFA548]/20 border border-gray-700/50 hover:border-[#FFA548]/50 flex items-center justify-center text-gray-400 hover:text-[#FFA548] transition-all duration-300"
+                  className="w-10 h-10 rounded-full bg-gray-800/50 hover:bg-[var(--gold-primary)]/20 border border-gray-700/50 hover:border-[var(--gold-primary)]/50 flex items-center justify-center text-gray-400 hover:text-[var(--gold-primary)] transition-all duration-300"
                   aria-label="Twitter"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -101,7 +97,7 @@ const Footer = () => {
                   href="https://linkedin.com" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-gray-800/50 hover:bg-[#FFA548]/20 border border-gray-700/50 hover:border-[#FFA548]/50 flex items-center justify-center text-gray-400 hover:text-[#FFA548] transition-all duration-300"
+                  className="w-10 h-10 rounded-full bg-gray-800/50 hover:bg-[var(--gold-primary)]/20 border border-gray-700/50 hover:border-[var(--gold-primary)]/50 flex items-center justify-center text-gray-400 hover:text-[var(--gold-primary)] transition-all duration-300"
                   aria-label="LinkedIn"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -112,7 +108,7 @@ const Footer = () => {
                   href="https://facebook.com" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-gray-800/50 hover:bg-[#FFA548]/20 border border-gray-700/50 hover:border-[#FFA548]/50 flex items-center justify-center text-gray-400 hover:text-[#FFA548] transition-all duration-300"
+                  className="w-10 h-10 rounded-full bg-gray-800/50 hover:bg-[var(--gold-primary)]/20 border border-gray-700/50 hover:border-[var(--gold-primary)]/50 flex items-center justify-center text-gray-400 hover:text-[var(--gold-primary)] transition-all duration-300"
                   aria-label="Facebook"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -122,7 +118,6 @@ const Footer = () => {
               </div>
             </div>
 
-            {/* Product Links */}
             <div>
               <h3 className="text-white font-semibold text-sm mb-4">Product</h3>
               <ul className="space-y-3">
@@ -130,7 +125,7 @@ const Footer = () => {
                   <li key={link.name}>
                     <Link 
                       href={link.href}
-                      className="text-gray-400 hover:text-[#FFA548] text-sm transition-colors duration-200"
+                      className="text-gray-400 hover:text-[var(--gold-primary)] text-sm transition-colors duration-200"
                     >
                       {link.name}
                     </Link>
@@ -139,7 +134,6 @@ const Footer = () => {
               </ul>
             </div>
 
-            {/* Support Links */}
             <div>
               <h3 className="text-white font-semibold text-sm mb-4">Support</h3>
               <ul className="space-y-3">
@@ -147,7 +141,7 @@ const Footer = () => {
                   <li key={link.name}>
                     <Link 
                       href={link.href}
-                      className="text-gray-400 hover:text-[#FFA548] text-sm transition-colors duration-200"
+                      className="text-gray-400 hover:text-[var(--gold-primary)] text-sm transition-colors duration-200"
                     >
                       {link.name}
                     </Link>
@@ -156,7 +150,6 @@ const Footer = () => {
               </ul>
             </div>
 
-            {/* Company Links */}
             <div>
               <h3 className="text-white font-semibold text-sm mb-4">Company</h3>
               <ul className="space-y-3">
@@ -164,7 +157,7 @@ const Footer = () => {
                   <li key={link.name}>
                     <Link 
                       href={link.href}
-                      className="text-gray-400 hover:text-[#FFA548] text-sm transition-colors duration-200"
+                      className="text-gray-400 hover:text-[var(--gold-primary)] text-sm transition-colors duration-200"
                     >
                       {link.name}
                     </Link>
@@ -175,7 +168,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom Bar */}
         <div 
           className={`border-t border-gray-800/50 py-6 transition-all duration-1000 delay-200 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
@@ -188,19 +180,19 @@ const Footer = () => {
             <div className="flex items-center gap-6">
               <Link 
                 href="#privacy" 
-                className="text-gray-400 hover:text-[#FFA548] text-sm transition-colors duration-200"
+                className="text-gray-400 hover:text-[var(--gold-primary)] text-sm transition-colors duration-200"
               >
                 Privacy
               </Link>
               <Link 
                 href="#terms" 
-                className="text-gray-400 hover:text-[#FFA548] text-sm transition-colors duration-200"
+                className="text-gray-400 hover:text-[var(--gold-primary)] text-sm transition-colors duration-200"
               >
                 Terms
               </Link>
               <Link 
                 href="#cookies" 
-                className="text-gray-400 hover:text-[#FFA548] text-sm transition-colors duration-200"
+                className="text-gray-400 hover:text-[var(--gold-primary)] text-sm transition-colors duration-200"
               >
                 Cookies
               </Link>

@@ -3,10 +3,12 @@ import WhyTexalya from "@/components/WhyTexalya";
 import Pricing from "@/components/Pricing";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
   return (
     <main className="min-h-screen pt-20">
+      <Navbar/>
       {/* Hero Section - Fits in one screen */}
       <Hero />
 

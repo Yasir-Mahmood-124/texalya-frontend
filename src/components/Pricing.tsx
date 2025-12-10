@@ -45,7 +45,7 @@ const Pricing = () => {
         "Community Support"
       ],
       buttonText: "Start Free Trial",
-      buttonStyle: "bg-gradient-to-r from-[#FFA548] to-[#FF8C29] text-white hover:shadow-2xl hover:scale-105"
+      buttonStyle: "bg-gradient-to-r from-[var(--gold-primary)] to-[var(--gold-secondary)] text-white hover:shadow-2xl hover:scale-105"
     },
     {
       id: 2,
@@ -62,7 +62,7 @@ const Pricing = () => {
         "Priority Support"
       ],
       buttonText: "Start Free Trial",
-      buttonStyle: "bg-gradient-to-r from-[#FFA548] to-[#FF8C29] text-white hover:shadow-2xl hover:scale-105"
+      buttonStyle: "bg-gradient-to-r from-[var(--gold-primary)] to-[var(--gold-secondary)] text-white hover:shadow-2xl hover:scale-105"
     },
     {
       id: 3,
@@ -79,20 +79,18 @@ const Pricing = () => {
         "Dedicated Account Manager"
       ],
       buttonText: "Start Free Trial",
-      buttonStyle: "bg-gradient-to-r from-[#FFA548] to-[#FF8C29] text-white hover:shadow-2xl hover:scale-105"
+      buttonStyle: "bg-gradient-to-r from-[var(--gold-primary)] to-[var(--gold-secondary)] text-white hover:shadow-2xl hover:scale-105"
     },
   ];
 
   return (
     <section ref={sectionRef} id="pricing" className="relative py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      {/* Background Decorative Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-[#FFA548]/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#FF8C29]/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 left-10 w-72 h-72 opacity-5 rounded-full blur-3xl" style={{ backgroundColor: 'var(--gold-primary)' }}></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 opacity-5 rounded-full blur-3xl" style={{ backgroundColor: 'var(--gold-secondary)' }}></div>
       </div>
 
       <div className="relative max-w-7xl mx-auto">
-        {/* Section Header */}
         <div
           className={`text-center mb-8 sm:mb-12 transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
@@ -106,7 +104,6 @@ const Pricing = () => {
           </p>
         </div>
 
-        {/* Pricing Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 max-w-6xl mx-auto">
           {plans.map((plan, index) => (
             <div
@@ -120,7 +117,6 @@ const Pricing = () => {
                 transitionDelay: isVisible ? `${index * 150}ms` : '0ms'
               }}
             >
-              {/* Plan Header */}
               <div className="mb-4">
                 <h3 className="text-xl font-bold text-black mb-1">
                   {plan.name}
@@ -130,7 +126,6 @@ const Pricing = () => {
                 </p>
               </div>
 
-              {/* Price */}
               <div className="mb-5">
                 <div className="flex items-baseline">
                   <span className="text-4xl font-bold text-black">
@@ -142,7 +137,6 @@ const Pricing = () => {
                 </div>
               </div>
 
-              {/* CTA Button */}
               <Link href="#subscribe" className="mb-6">
                 <button 
                   className={`w-full py-3 rounded-xl font-semibold transition-all duration-300 text-sm ${plan.buttonStyle}`}
@@ -151,15 +145,14 @@ const Pricing = () => {
                 </button>
               </Link>
 
-              {/* Features List */}
               <div className="space-y-3 flex-grow">
                 <p className="text-xs font-semibold text-gray-900 mb-3">
                   What's included:
                 </p>
                 {plan.features.map((feature, featureIndex) => (
                   <div key={featureIndex} className="flex items-start gap-2.5">
-                    <div className="flex-shrink-0 w-4 h-4 rounded-full bg-[#FFA548]/10 flex items-center justify-center mt-0.5">
-                      <Check className="w-3 h-3 text-[#FFA548]" />
+                    <div className="flex-shrink-0 w-4 h-4 rounded-full flex items-center justify-center mt-0.5" style={{ backgroundColor: 'var(--gold-primary)', opacity: 0.1 }}>
+                      <Check className="w-3 h-3 text-[var(--gold-primary)]" />
                     </div>
                     <p className="text-xs text-gray-700 leading-relaxed">
                       {feature}
@@ -171,7 +164,6 @@ const Pricing = () => {
           ))}
         </div>
 
-        {/* Bottom CTA */}
         <div
           className={`text-center mt-12 sm:mt-16 transition-all duration-1000 delay-500 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
@@ -188,7 +180,7 @@ const Pricing = () => {
               Contact our sales team for custom pricing, advanced features, and dedicated support tailored to your organization.
             </p>
             <Link href="#contact">
-              <button className="bg-gradient-to-r from-[#FFA548] to-[#FF8C29] text-white px-10 py-4 rounded-xl font-semibold transition-all duration-300 hover:shadow-2xl hover:scale-105 inline-flex items-center gap-2">
+              <button className="bg-gradient-to-r from-[var(--gold-primary)] to-[var(--gold-secondary)] text-white px-10 py-4 rounded-xl font-semibold transition-all duration-300 hover:shadow-2xl hover:scale-105 inline-flex items-center gap-2">
                 Schedule a meeting
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

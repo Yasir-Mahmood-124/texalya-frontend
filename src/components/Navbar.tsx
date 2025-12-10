@@ -7,7 +7,7 @@ import Logo from "@/assets/images/Logo4.png"
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isOverOrange, setIsOverOrange] = useState(false);
+    const [isOverGolden, setIsOverGolden] = useState(false);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -18,8 +18,7 @@ const Navbar = () => {
             const scrollPosition = window.scrollY;
             const windowHeight = window.innerHeight;
             
-            // Get the Why Texalya section by checking for the gradient background
-            const whyTexalyaSection = document.querySelector('section > div.bg-gradient-to-br.from-\\[\\#FFA548\\]');
+            const whyTexalyaSection = document.querySelector('section > div.bg-gradient-to-br');
             
             if (whyTexalyaSection) {
                 const section = whyTexalyaSection.closest('section');
@@ -27,28 +26,24 @@ const Navbar = () => {
                     const rect = section.getBoundingClientRect();
                     const navbarHeight = 80;
                     
-                    // Check if navbar overlaps with this section
                     if (rect.top <= navbarHeight && rect.bottom >= navbarHeight) {
-                        setIsOverOrange(true);
+                        setIsOverGolden(true);
                     } else {
-                        setIsOverOrange(false);
+                        setIsOverGolden(false);
                     }
                 }
             } else {
-                // Fallback: Use scroll position
-                // Adjust these values based on your Hero section height
                 if (scrollPosition > windowHeight * 0.85 && scrollPosition < windowHeight * 2) {
-                    setIsOverOrange(true);
+                    setIsOverGolden(true);
                 } else {
-                    setIsOverOrange(false);
+                    setIsOverGolden(false);
                 }
             }
         };
 
         window.addEventListener('scroll', handleScroll);
-        handleScroll(); // Initial check
+        handleScroll();
         
-        // Recheck after a delay to ensure DOM is ready
         const timer = setTimeout(handleScroll, 200);
         
         return () => {
@@ -61,7 +56,6 @@ const Navbar = () => {
         <nav className="fixed top-0 left-1/2 -translate-x-1/2 w-[95%] border border-[#FEFEFE] bg-transparent mt-4 rounded-full overflow-hidden z-50 backdrop-blur-sm">
             <div className="w-full pl-4 pr-3 lg:pl-6 lg:pr-4">
                 <div className="flex items-center justify-between h-14">
-                    {/* Logo - Stuck to Left */}
                     <div className="flex-shrink-0 -ml-14 lg:-ml-14">
                         <Link href="/">
                             <Image 
@@ -75,30 +69,28 @@ const Navbar = () => {
                         </Link>
                     </div>
 
-                    {/* Desktop Navigation - Center */}
                     <div className="hidden md:flex items-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
                         <Link
                             href="#pricing"
-                            className="relative text-[#918C94] hover:text-white transition-colors duration-200 text-sm font-medium group"
+                            className="relative text-[#918C94] hover:text-[var(--gold-primary)] transition-colors duration-200 text-sm font-medium group"
                         >
                             Pricing
-                            <span className="absolute left-0 bottom-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full"></span>
+                            <span className="absolute left-0 bottom-0 w-0 h-[1px] bg-[var(--gold-primary)] transition-all duration-300 group-hover:w-full"></span>
                         </Link>
                         <Link
                             href="#contact"
-                            className="relative text-[#918C94] hover:text-white transition-colors duration-200 text-sm font-medium group"
+                            className="relative text-[#918C94] hover:text-[var(--gold-primary)] transition-colors duration-200 text-sm font-medium group"
                         >
                             Contact
-                            <span className="absolute left-0 bottom-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full"></span>
+                            <span className="absolute left-0 bottom-0 w-0 h-[1px] bg-[var(--gold-primary)] transition-all duration-300 group-hover:w-full"></span>
                         </Link>
                     </div>
 
-                    {/* Desktop Get Started Button - Stuck to Right */}
                     <div className="hidden md:block flex-shrink-0">
                         <Link href="#get-started">
                             <button 
                                 className={`px-6 py-2.5 rounded-full hover:scale-105 hover:shadow-lg text-sm font-medium text-white transition-all duration-500 ${
-                                    isOverOrange 
+                                    isOverGolden 
                                         ? 'bg-black' 
                                         : 'animate-button-gradient'
                                 }`}
@@ -108,11 +100,10 @@ const Navbar = () => {
                         </Link>
                     </div>
 
-                    {/* Mobile menu button */}
                     <div className="md:hidden">
                         <button
                             onClick={toggleMenu}
-                            className="text-[#918C94] hover:text-white focus:outline-none focus:text-white"
+                            className="text-[#918C94] hover:text-[var(--gold-primary)] focus:outline-none focus:text-[var(--gold-primary)]"
                             aria-label="Toggle menu"
                         >
                             {!isMenuOpen ? (
@@ -145,20 +136,19 @@ const Navbar = () => {
                 </div>
             </div>
 
-            {/* Mobile menu */}
             {isMenuOpen && (
                 <div className="md:hidden border-t border-[#FEFEFE]">
                     <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                         <Link
                             href="#pricing"
-                            className="text-[#918C94] hover:text-white block px-3 py-2 text-base font-medium transition-colors duration-200"
+                            className="text-[#918C94] hover:text-[var(--gold-primary)] block px-3 py-2 text-base font-medium transition-colors duration-200"
                             onClick={() => setIsMenuOpen(false)}
                         >
                             Pricing
                         </Link>
                         <Link
                             href="#contact"
-                            className="text-[#918C94] hover:text-white block px-3 py-2 text-base font-medium transition-colors duration-200"
+                            className="text-[#918C94] hover:text-[var(--gold-primary)] block px-3 py-2 text-base font-medium transition-colors duration-200"
                             onClick={() => setIsMenuOpen(false)}
                         >
                             Contact
@@ -170,7 +160,7 @@ const Navbar = () => {
                         >
                             <button 
                                 className={`w-full px-6 py-2 rounded-full hover:scale-105 text-sm font-medium text-white transition-all duration-500 ${
-                                    isOverOrange 
+                                    isOverGolden 
                                         ? 'bg-black' 
                                         : 'animate-button-gradient'
                                 }`}
