@@ -97,10 +97,10 @@ const Hero = () => {
         </h1>
 
         <p className="text-lg sm:text-xl md:text-2xl text-[#918C94] mb-6 sm:mb-8">
-          Xalya - Your Intelligent SaaS Solution
+          Xlya - Your Intelligent SaaS Solution
         </p>
 
-        <Link href="/signup">
+        <Link href="/auth/signup">
           <button className="animate-button-gradient text-white px-8 py-3 rounded-lg hover:scale-105 hover:shadow-xl transition-all duration-300 text-base sm:text-lg font-medium mb-12 sm:mb-16">
             Get Started
           </button>
@@ -108,7 +108,7 @@ const Hero = () => {
 
         <div className="max-w-4xl mx-auto">
           <p className="text-sm sm:text-base md:text-lg text-[#918C94] leading-relaxed">
-            Xalya is an AI-powered SaaS platform that unifies design,
+            Xlya is an AI-powered SaaS platform that unifies design,
             automation, analytics and collaboration into one seamless
             ecosystem. It replaces multiple tools from AI-driven creation to
             CRM and scheduling with an integrated, scalable solution that

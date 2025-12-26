@@ -43,7 +43,7 @@ const WhyTexalya = () => {
 
             <div className="relative z-10 max-w-7xl w-full">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-black mb-8 lg:mb-10">
-                    Why Xalya
+                    Why Xlya
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5 mb-8 lg:mb-10">
@@ -82,7 +82,7 @@ const WhyTexalya = () => {
                 </div>
 
                 <div className="flex justify-center">
-                    <Link href="/signup">
+                    <Link href="/auth/signup">
                         <button className="bg-black text-white px-10 py-3.5 rounded-full text-sm lg:text-base font-semibold hover:scale-105 hover:shadow-2xl transition-all duration-300">
                             Get Started
                         </button>

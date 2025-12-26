@@ -8,9 +8,11 @@ import Logo from "@/assets/images/Logo4.png";
 import AnimatedXBackground from "@/components/common/AnimatedXBackground";
 import AuthFeaturesSidebar from "@/components/auth/AuthFeaturesSidebar";
 
-export default function LoginPage() {
+export default function SignupPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
   });
@@ -29,6 +31,12 @@ export default function LoginPage() {
   const validateForm = () => {
     const newErrors: any = {};
 
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = "First name is required";
+    }
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = "Last name is required";
+    }
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
@@ -36,6 +44,8 @@ export default function LoginPage() {
     }
     if (!formData.password) {
       newErrors.password = "Password is required";
+    } else if (formData.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters";
     }
 
     setErrors(newErrors);
@@ -51,20 +61,20 @@ export default function LoginPage() {
 
     setTimeout(() => {
       setIsLoading(false);
-      router.push("/dashboard");
+      router.push(`/verify-email?email=${encodeURIComponent(formData.email)}`);
     }, 1500);
   };
 
-  const handleGoogleLogin = () => {
-    console.log("Google login");
+  const handleGoogleSignup = () => {
+    console.log("Google signup");
   };
 
-  const handleGithubLogin = () => {
-    console.log("GitHub login");
+  const handleGithubSignup = () => {
+    console.log("GitHub signup");
   };
 
-  const handleSlackLogin = () => {
-    console.log("Slack login");
+  const handleSlackSignup = () => {
+    console.log("Slack signup");
   };
 
   return (
@@ -81,16 +91,16 @@ export default function LoginPage() {
           {/* Logo for mobile */}
           <div className="lg:hidden mb-4 text-center">
             <Link href="/">
-              <Image src={Logo} alt="Texalya Logo" width={92} height={31} className="h-auto w-auto mx-auto" />
+              <Image src={Logo} alt="Xlya Logo" width={92} height={31} className="h-auto w-auto mx-auto" />
             </Link>
           </div>
 
-          {/* Social Login Buttons */}
+          {/* Social Sign Up Buttons */}
           <div className="mb-4">
-            <p className="text-gray-400 text-[0.78rem] mb-2">Login with:</p>
+            <p className="text-gray-400 text-[0.78rem] mb-2">Register with:</p>
             <div className="grid grid-cols-3 gap-2.5">
               <button
-                onClick={handleGoogleLogin}
+                onClick={handleGoogleSignup}
                 className="bg-[#2a2a2a]/50 backdrop-blur-sm border border-gray-700/50 text-white py-2.5 rounded-lg hover:bg-[#2a2a2a] transition-all duration-300 flex items-center justify-center"
               >
                 <svg className="w-[1.05rem] h-[1.05rem]" viewBox="0 0 24 24">
@@ -113,7 +123,7 @@ export default function LoginPage() {
                 </svg>
               </button>
               <button
-                onClick={handleGithubLogin}
+                onClick={handleGithubSignup}
                 className="bg-[#2a2a2a]/50 backdrop-blur-sm border border-gray-700/50 text-white py-2.5 rounded-lg hover:bg-[#2a2a2a] transition-all duration-300 flex items-center justify-center"
               >
                 <svg className="w-[1.05rem] h-[1.05rem]" fill="currentColor" viewBox="0 0 24 24">
@@ -121,7 +131,7 @@ export default function LoginPage() {
                 </svg>
               </button>
               <button
-                onClick={handleSlackLogin}
+                onClick={handleSlackSignup}
                 className="bg-[#2a2a2a]/50 backdrop-blur-sm border border-gray-700/50 text-white py-2.5 rounded-lg hover:bg-[#2a2a2a] transition-all duration-300 flex items-center justify-center"
               >
                 <svg className="w-[1.05rem] h-[1.05rem]" fill="currentColor" viewBox="0 0 24 24">
@@ -140,6 +150,56 @@ export default function LoginPage() {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-3.5">
+            {/* First Name & Last Name */}
+            <div className="grid grid-cols-2 gap-2.5">
+              <div>
+                <label className="block text-[0.78rem] font-medium text-gray-300 mb-1.5">
+                  First Name
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
+                    <svg className="w-[0.9rem] h-[0.9rem] text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    className="w-full pl-9 pr-2.5 py-2.5 text-[0.78rem] bg-[#2a2a2a]/50 backdrop-blur-sm border border-gray-700/50 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[var(--gold-primary)] focus:ring-1 focus:ring-[var(--gold-primary)] transition-all"
+                    placeholder="First Name"
+                  />
+                </div>
+                {errors.firstName && (
+                  <p className="text-red-400 text-[0.72rem] mt-1">{errors.firstName}</p>
+                )}
+              </div>
+              <div>
+                <label className="block text-[0.78rem] font-medium text-gray-300 mb-1.5">
+                  Last Name
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
+                    <svg className="w-[0.9rem] h-[0.9rem] text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    className="w-full pl-9 pr-2.5 py-2.5 text-[0.78rem] bg-[#2a2a2a]/50 backdrop-blur-sm border border-gray-700/50 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[var(--gold-primary)] focus:ring-1 focus:ring-[var(--gold-primary)] transition-all"
+                    placeholder="Last Name"
+                  />
+                </div>
+                {errors.lastName && (
+                  <p className="text-red-400 text-[0.72rem] mt-1">{errors.lastName}</p>
+                )}
+              </div>
+            </div>
+
             {/* Email */}
             <div>
               <label className="block text-[0.78rem] font-medium text-gray-300 mb-1.5">
@@ -201,40 +261,40 @@ export default function LoginPage() {
                   )}
                 </button>
               </div>
+              <p className="text-gray-500 text-[0.72rem] mt-1">Must be at least 8 characters.</p>
               {errors.password && (
                 <p className="text-red-400 text-[0.72rem] mt-1">{errors.password}</p>
               )}
-            </div>
-
-            {/* Forgot Password */}
-            <div className="text-right">
-              <Link
-                href="/forgot-password"
-                className="text-[0.78rem] text-[var(--gold-primary)] hover:text-[var(--gold-light)] font-medium transition-colors"
-              >
-                Forgot password?
-              </Link>
             </div>
 
             {/* Submit Button */}
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-[var(--gold-primary)] to-[var(--gold-secondary)] text-black font-semibold py-2.5 rounded-lg hover:shadow-xl hover:shadow-[var(--gold-primary)]/20 transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 text-[0.78rem]"
+              className="animate-button-gradient w-full bg-gradient-to-r from-[var(--gold-primary)] to-[var(--gold-secondary)] text-black font-semibold py-2.5 rounded-lg hover:shadow-xl hover:shadow-[var(--gold-primary)]/20 transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 text-[0.78rem]"
             >
-              {isLoading ? "Logging in..." : "Login"}
+              {isLoading ? "Creating Account..." : "Sign Up"}
             </button>
           </form>
+
+          {/* Terms */}
+          <p className="text-gray-500 text-[0.72rem] mt-3 text-center">
+            By creating an account, you agree to the{" "}
+            <Link href="/terms-of-service" className="text-[var(--gold-primary)] hover:text-[var(--gold-light)] transition-colors">
+              Terms of Service
+            </Link>
+            . We&apos;ll occasionally send you account-related emails.
+          </p>
 
           {/* Footer */}
           <div className="mt-4 text-center">
             <p className="text-gray-400 text-[0.78rem]">
-              Don&apos;t have an account?{" "}
+              Already have an account?{" "}
               <Link
-                href="/signup"
+                href="/auth/login"
                 className="text-[var(--gold-primary)] hover:text-[var(--gold-light)] font-semibold transition-colors"
               >
-                Sign up
+                Login
               </Link>
             </p>
           </div>

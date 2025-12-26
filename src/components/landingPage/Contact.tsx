@@ -65,7 +65,7 @@ const Contact = () => {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
               Get in touch with{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--gold-primary)] to-[var(--gold-secondary)]">
-                Texalya
+                Xlya
               </span>
             </h2>
             <p className="text-lg sm:text-xl text-gray-400 leading-relaxed">
@@ -89,7 +89,7 @@ const Contact = () => {
                 </svg>
                 <div>
                   <h3 className="text-white font-semibold">Email</h3>
-                  <p className="text-gray-400">support@texalya.com</p>
+                  <p className="text-gray-400">support@xlya.com</p>
                 </div>
               </div>
               
