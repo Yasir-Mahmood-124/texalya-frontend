@@ -1,9 +1,9 @@
-import Hero from "@/components/Hero";
-import WhyTexalya from "@/components/WhyTexalya";
-import Pricing from "@/components/Pricing";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+import Hero from "@/components/landingPage/Hero";
+import WhyTexalya from "@/components/landingPage/WhyTexalya";
+import Pricing from "@/components/landingPage/Pricing";
+import Contact from "@/components/landingPage/Contact";
+import Footer from "@/components/landingPage/Footer";
+import Navbar from "@/components/landingPage/Navbar";
 import AnimatedXBackground from "@/components/common/AnimatedXBackground";
 
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
       
       <AnimatedXBackground/>
 
-      
+
       <Navbar/>
       {/* Hero Section - Fits in one screen */}
       <Hero />
