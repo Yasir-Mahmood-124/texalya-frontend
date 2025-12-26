@@ -82,7 +82,7 @@ export default function TermsOfServicePage() {
     return (
         <div className="min-h-screen bg-black relative">
             <AnimatedXBackground />
-            <Navbar />
+            <Navbar showNavLinks={false} />
 
             <div className="relative z-10 pt-24 pb-16">
                 <div className="max-w-7xl mx-auto px-6">

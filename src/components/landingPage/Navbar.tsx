@@ -5,7 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/assets/images/Logo4.png"
 
-const Navbar = () => {
+interface NavbarProps {
+    showNavLinks?: boolean;
+}
+
+const Navbar = ({ showNavLinks = true }: NavbarProps) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isOverGolden, setIsOverGolden] = useState(false);
 
@@ -69,22 +73,24 @@ const Navbar = () => {
                         </Link>
                     </div>
 
-                    <div className="hidden md:flex items-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
-                        <Link
-                            href="#pricing"
-                            className="relative text-[#918C94] hover:text-[var(--gold-primary)] transition-colors duration-200 text-sm font-medium group"
-                        >
-                            Pricing
-                            <span className="absolute left-0 bottom-0 w-0 h-[1px] bg-[var(--gold-primary)] transition-all duration-300 group-hover:w-full"></span>
-                        </Link>
-                        <Link
-                            href="#contact"
-                            className="relative text-[#918C94] hover:text-[var(--gold-primary)] transition-colors duration-200 text-sm font-medium group"
-                        >
-                            Contact
-                            <span className="absolute left-0 bottom-0 w-0 h-[1px] bg-[var(--gold-primary)] transition-all duration-300 group-hover:w-full"></span>
-                        </Link>
-                    </div>
+                    {showNavLinks && (
+                        <div className="hidden md:flex items-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
+                            <Link
+                                href="#pricing"
+                                className="relative text-[#918C94] hover:text-[var(--gold-primary)] transition-colors duration-200 text-sm font-medium group"
+                            >
+                                Pricing
+                                <span className="absolute left-0 bottom-0 w-0 h-[1px] bg-[var(--gold-primary)] transition-all duration-300 group-hover:w-full"></span>
+                            </Link>
+                            <Link
+                                href="#contact"
+                                className="relative text-[#918C94] hover:text-[var(--gold-primary)] transition-colors duration-200 text-sm font-medium group"
+                            >
+                                Contact
+                                <span className="absolute left-0 bottom-0 w-0 h-[1px] bg-[var(--gold-primary)] transition-all duration-300 group-hover:w-full"></span>
+                            </Link>
+                        </div>
+                    )}
 
                     <div className="hidden md:block flex-shrink-0">
                         <Link href="/auth/signup">
@@ -139,22 +145,26 @@ const Navbar = () => {
             {isMenuOpen && (
                 <div className="md:hidden border-t border-[#FEFEFE]">
                     <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                        {showNavLinks && (
+                            <>
+                                <Link
+                                    href="#pricing"
+                                    className="text-[#918C94] hover:text-[var(--gold-primary)] block px-3 py-2 text-base font-medium transition-colors duration-200"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    Pricing
+                                </Link>
+                                <Link
+                                    href="#contact"
+                                    className="text-[#918C94] hover:text-[var(--gold-primary)] block px-3 py-2 text-base font-medium transition-colors duration-200"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    Contact
+                                </Link>
+                            </>
+                        )}
                         <Link
-                            href="#pricing"
-                            className="text-[#918C94] hover:text-[var(--gold-primary)] block px-3 py-2 text-base font-medium transition-colors duration-200"
-                            onClick={() => setIsMenuOpen(false)}
-                        >
-                            Pricing
-                        </Link>
-                        <Link
-                            href="#contact"
-                            className="text-[#918C94] hover:text-[var(--gold-primary)] block px-3 py-2 text-base font-medium transition-colors duration-200"
-                            onClick={() => setIsMenuOpen(false)}
-                        >
-                            Contact
-                        </Link>
-                        <Link
-                            href="/signup"
+                            href="/auth/signup"
                             className="block px-3 py-2"
                             onClick={() => setIsMenuOpen(false)}
                         >
