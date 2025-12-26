@@ -43,7 +43,7 @@ const WhyTexalya = () => {
 
             <div className="relative z-10 max-w-7xl w-full">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-black mb-8 lg:mb-10">
-                    Why Xalya
+                    Why Xlya
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5 mb-8 lg:mb-10">

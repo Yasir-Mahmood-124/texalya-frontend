@@ -175,7 +175,7 @@ const Footer = () => {
         >
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm text-center sm:text-left">
-              © {currentYear} Xalya. All rights reserved.
+              © {currentYear} Xlya. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
               <Link 

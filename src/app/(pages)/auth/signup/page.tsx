@@ -91,7 +91,7 @@ export default function SignupPage() {
           {/* Logo for mobile */}
           <div className="lg:hidden mb-4 text-center">
             <Link href="/">
-              <Image src={Logo} alt="Texalya Logo" width={92} height={31} className="h-auto w-auto mx-auto" />
+              <Image src={Logo} alt="Xlya Logo" width={92} height={31} className="h-auto w-auto mx-auto" />
             </Link>
           </div>
 
@@ -271,7 +271,7 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-[var(--gold-primary)] to-[var(--gold-secondary)] text-black font-semibold py-2.5 rounded-lg hover:shadow-xl hover:shadow-[var(--gold-primary)]/20 transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 text-[0.78rem]"
+              className="animate-button-gradient w-full bg-gradient-to-r from-[var(--gold-primary)] to-[var(--gold-secondary)] text-black font-semibold py-2.5 rounded-lg hover:shadow-xl hover:shadow-[var(--gold-primary)]/20 transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 text-[0.78rem]"
             >
               {isLoading ? "Creating Account..." : "Sign Up"}
             </button>
