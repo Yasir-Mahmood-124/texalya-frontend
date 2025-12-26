@@ -123,18 +123,6 @@ const Contact = () => {
 
           <div className="relative overflow-hidden rounded-2xl p-6 sm:p-8">
             <div className="absolute inset-0 bg-gradient-to-br from-[var(--gold-primary)] via-[var(--gold-secondary)] to-[var(--gold-light)]"></div>
-            
-            <div className="x-bg-container">
-              <div className="absolute top-10 right-20 x-lg x-gold-primary x-shape animate-float-slow"></div>
-              <div className="absolute -bottom-16 left-16 x-lg x-white-medium x-shape animate-float-medium"></div>
-              <div className="absolute top-1/2 left-1/3 x-lg x-gold-secondary x-shape animate-float-fast"></div>
-              <div className="absolute top-1/3 left-1/4 x-md x-white-medium x-shape animate-bounce-slow"></div>
-              <div className="absolute bottom-1/3 right-1/4 x-md x-gold-light x-shape animate-pulse-slow"></div>
-              <div className="absolute top-2/3 right-1/3 x-md x-gold-dark x-shape animate-bounce-medium"></div>
-              <div className="absolute top-20 left-1/3 x-sm x-white-strong x-shape animate-float-fast"></div>
-              <div className="absolute bottom-24 right-1/3 x-sm x-gold-accent x-shape animate-bounce-fast"></div>
-              <div className="absolute top-1/2 right-1/2 x-sm-md x-gold-primary x-shape animate-pulse-slow"></div>
-            </div>
 
             <div className="relative z-10">
               <h3 className="text-xl sm:text-2xl font-bold text-black mb-4 sm:mb-5">

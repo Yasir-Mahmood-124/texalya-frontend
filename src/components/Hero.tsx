@@ -97,7 +97,7 @@ const Hero = () => {
         </h1>
 
         <p className="text-lg sm:text-xl md:text-2xl text-[#918C94] mb-6 sm:mb-8">
-          Texalya - Your Intelligent SaaS Solution
+          Xalya - Your Intelligent SaaS Solution
         </p>
 
         <Link href="/signup">
@@ -108,7 +108,7 @@ const Hero = () => {
 
         <div className="max-w-4xl mx-auto">
           <p className="text-sm sm:text-base md:text-lg text-[#918C94] leading-relaxed">
-            Texalya is an AI-powered SaaS platform that unifies design,
+            Xalya is an AI-powered SaaS platform that unifies design,
             automation, analytics and collaboration into one seamless
             ecosystem. It replaces multiple tools from AI-driven creation to
             CRM and scheduling with an integrated, scalable solution that

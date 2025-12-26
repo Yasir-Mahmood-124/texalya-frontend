@@ -71,7 +71,7 @@ const Footer = () => {
               <Link href="/" className="inline-block mb-4">
                 <Image 
                   src={Logo}
-                  alt="Texalya Logo"
+                  alt="Xalya Logo"
                   width={150}
                   height={50}
                   className="h-auto w-auto"
@@ -175,7 +175,7 @@ const Footer = () => {
         >
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm text-center sm:text-left">
-              © {currentYear} Texalya. All rights reserved.
+              © {currentYear} Xalya. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
               <Link 
