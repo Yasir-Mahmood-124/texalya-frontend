@@ -280,7 +280,7 @@ export default function SignupPage() {
           {/* Terms */}
           <p className="text-gray-500 text-[0.72rem] mt-3 text-center">
             By creating an account, you agree to the{" "}
-            <Link href="/terms" className="text-[var(--gold-primary)] hover:text-[var(--gold-light)] transition-colors">
+            <Link href="/terms-of-service" className="text-[var(--gold-primary)] hover:text-[var(--gold-light)] transition-colors">
               Terms of Service
             </Link>
             . We&apos;ll occasionally send you account-related emails.

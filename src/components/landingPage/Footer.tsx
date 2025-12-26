@@ -179,23 +179,23 @@ const Footer = () => {
             </p>
             <div className="flex items-center gap-6">
               <Link 
-                href="#privacy" 
+                href="/privacy-policy" 
                 className="text-gray-400 hover:text-[var(--gold-primary)] text-sm transition-colors duration-200"
               >
                 Privacy
               </Link>
               <Link 
-                href="#terms" 
+                href="/terms-of-service" 
                 className="text-gray-400 hover:text-[var(--gold-primary)] text-sm transition-colors duration-200"
               >
                 Terms
               </Link>
-              <Link 
+              {/* <Link 
                 href="#cookies" 
                 className="text-gray-400 hover:text-[var(--gold-primary)] text-sm transition-colors duration-200"
               >
                 Cookies
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>
