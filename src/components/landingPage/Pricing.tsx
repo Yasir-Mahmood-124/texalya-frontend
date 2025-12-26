@@ -45,7 +45,7 @@ const Pricing = () => {
         "Community Support"
       ],
       buttonText: "Start Free Trial",
-      buttonStyle: "bg-gradient-to-r from-[var(--gold-primary)] to-[var(--gold-secondary)] text-white hover:shadow-2xl hover:scale-105"
+      buttonStyle: "animate-button-gradient bg-gradient-to-r from-[var(--gold-primary)] to-[var(--gold-secondary)] text-white hover:shadow-2xl hover:scale-105"
     },
     {
       id: 2,
@@ -62,7 +62,7 @@ const Pricing = () => {
         "Priority Support"
       ],
       buttonText: "Start Free Trial",
-      buttonStyle: "bg-gradient-to-r from-[var(--gold-primary)] to-[var(--gold-secondary)] text-white hover:shadow-2xl hover:scale-105"
+      buttonStyle: "animate-button-gradient bg-gradient-to-r from-[var(--gold-primary)] to-[var(--gold-secondary)] text-white hover:shadow-2xl hover:scale-105"
     },
     {
       id: 3,
@@ -79,7 +79,7 @@ const Pricing = () => {
         "Dedicated Account Manager"
       ],
       buttonText: "Start Free Trial",
-      buttonStyle: "bg-gradient-to-r from-[var(--gold-primary)] to-[var(--gold-secondary)] text-white hover:shadow-2xl hover:scale-105"
+      buttonStyle: "animate-button-gradient bg-gradient-to-r from-[var(--gold-primary)] to-[var(--gold-secondary)] text-white hover:shadow-2xl hover:scale-105"
     },
   ];
 
@@ -180,7 +180,7 @@ const Pricing = () => {
               Contact our sales team for custom pricing, advanced features, and dedicated support tailored to your organization.
             </p>
             <Link href="#contact">
-              <button className="bg-gradient-to-r from-[var(--gold-primary)] to-[var(--gold-secondary)] text-white px-10 py-4 rounded-xl font-semibold transition-all duration-300 hover:shadow-2xl hover:scale-105 inline-flex items-center gap-2">
+              <button className="animate-button-gradient bg-gradient-to-r from-[var(--gold-primary)] to-[var(--gold-secondary)] text-white px-10 py-4 rounded-xl font-semibold transition-all duration-300 hover:shadow-2xl hover:scale-105 inline-flex items-center gap-2">
                 Schedule a meeting
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
