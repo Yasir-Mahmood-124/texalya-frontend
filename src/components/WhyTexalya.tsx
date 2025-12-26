@@ -82,7 +82,7 @@ const WhyTexalya = () => {
                 </div>
 
                 <div className="flex justify-center">
-                    <Link href="/signup">
+                    <Link href="/auth/signup">
                         <button className="bg-black text-white px-10 py-3.5 rounded-full text-sm lg:text-base font-semibold hover:scale-105 hover:shadow-2xl transition-all duration-300">
                             Get Started
                         </button>

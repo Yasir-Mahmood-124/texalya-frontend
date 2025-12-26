@@ -231,7 +231,7 @@ export default function LoginPage() {
             <p className="text-gray-400 text-[0.78rem]">
               Don&apos;t have an account?{" "}
               <Link
-                href="/signup"
+                href="/auth/signup"
                 className="text-[var(--gold-primary)] hover:text-[var(--gold-light)] font-semibold transition-colors"
               >
                 Sign up
