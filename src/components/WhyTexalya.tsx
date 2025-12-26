@@ -41,26 +41,9 @@ const WhyTexalya = () => {
         <section className="relative w-full min-h-screen py-16 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
             <div className="absolute inset-0 bg-gradient-to-br from-[var(--gold-primary)] via-[var(--gold-secondary)] to-[var(--gold-light)]"></div>
 
-            <div className="x-bg-container-fixed">
-                <div className="absolute top-20 left-1/4 x-lg x-gold-primary x-shape animate-float-slow"></div>
-                <div className="absolute bottom-32 right-1/4 x-lg-xl x-white-medium x-shape animate-float-medium"></div>
-                <div className="absolute top-1/2 right-1/3 x-lg x-gold-secondary x-shape animate-float-fast"></div>
-                <div className="absolute bottom-1/4 left-1/3 x-lg x-gold-light x-shape animate-float-slow"></div>
-
-                <div className="absolute top-1/4 right-20 x-md x-white-medium x-shape animate-bounce-slow"></div>
-                <div className="absolute bottom-1/4 left-24 x-md-lg x-gold-dark x-shape animate-pulse-slow"></div>
-                <div className="absolute top-2/3 left-1/3 x-md x-gold-accent x-shape animate-bounce-medium"></div>
-                <div className="absolute top-1/3 right-1/4 x-md x-white-strong x-shape animate-float-medium"></div>
-
-                <div className="absolute top-40 right-1/2 x-sm-md x-gold-primary x-shape animate-float-fast"></div>
-                <div className="absolute bottom-40 left-1/2 x-sm x-white-strong x-shape animate-bounce-fast"></div>
-                <div className="absolute top-1/3 left-20 x-sm-md x-gold-secondary x-shape animate-float-medium"></div>
-                <div className="absolute bottom-1/2 right-1/3 x-sm x-gold-light x-shape animate-pulse-slow"></div>
-            </div>
-
             <div className="relative z-10 max-w-7xl w-full">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-black mb-8 lg:mb-10">
-                    Why Texalya
+                    Why Xalya
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5 mb-8 lg:mb-10">
@@ -99,7 +82,7 @@ const WhyTexalya = () => {
                 </div>
 
                 <div className="flex justify-center">
-                    <Link  href="/signup">
+                    <Link href="/signup">
                         <button className="bg-black text-white px-10 py-3.5 rounded-full text-sm lg:text-base font-semibold hover:scale-105 hover:shadow-2xl transition-all duration-300">
                             Get Started
                         </button>
