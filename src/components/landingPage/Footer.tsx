@@ -39,8 +39,8 @@ const Footer = () => {
       { name: "Demo", href: "#demo" },
     ],
     support: [
-      { name: "Privacy Policy", href: "#privacy" },
-      { name: "Terms & Conditions", href: "#terms" },
+      { name: "Privacy Policy", href: "/privacy-policy" },
+      { name: "Terms & Conditions", href: "/terms-of-service" },
       { name: "Contact Us", href: "#contact" },
     ],
     company: [
