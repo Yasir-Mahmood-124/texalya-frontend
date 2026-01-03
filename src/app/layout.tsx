@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/landingPage/Navbar";
 import ThemeProvider from "@/utils/theme-provider";
+import { Providers } from "@/redux/provider";
+import "@/lib/aws/amplify";
 
 export const metadata: Metadata = {
   title: "Texalya",
@@ -17,8 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-black min-h-screen">
         <ThemeProvider>
-          {/* <Navbar /> */}
-          {children}
+          <Providers>{children}</Providers>
         </ThemeProvider>
       </body>
     </html>

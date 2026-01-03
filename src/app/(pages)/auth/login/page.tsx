@@ -1,22 +1,37 @@
+// src/app/auth/login/page.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Logo from "@/assets/images/Logo4.png";
 import AnimatedXBackground from "@/components/common/AnimatedXBackground";
 import AuthFeaturesSidebar from "@/components/auth/AuthFeaturesSidebar";
+import { useSignInMutation } from "@/redux/services/auth/auth";
+import { Suspense } from "react";
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const verified = searchParams.get("verified");
+
+  const [signIn, { isLoading }] = useSignInMutation();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const [errors, setErrors] = useState<any>({});
-  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showVerifiedMessage, setShowVerifiedMessage] = useState(false);
+
+  useEffect(() => {
+    if (verified === "true") {
+      setShowVerifiedMessage(true);
+      setTimeout(() => setShowVerifiedMessage(false), 5000);
+    }
+  }, [verified]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -47,24 +62,46 @@ export default function LoginPage() {
 
     if (!validateForm()) return;
 
-    setIsLoading(true);
+    try {
+      await signIn({
+        email: formData.email,
+        password: formData.password,
+      }).unwrap();
 
-    setTimeout(() => {
-      setIsLoading(false);
+      // Redirect to dashboard on success
       router.push("/dashboard");
-    }, 1500);
+    } catch (error: any) {
+      console.error("Login error:", error);
+
+      const errorMessage = error?.error || error?.message || "An error occurred";
+
+      if (errorMessage.includes("Incorrect username or password")) {
+        setErrors({ general: "Invalid email or password" });
+      } else if (errorMessage.includes("User is not confirmed")) {
+        setErrors({ 
+          general: "Please verify your email before logging in" 
+        });
+      } else if (errorMessage.includes("User does not exist")) {
+        setErrors({ email: "No account found with this email" });
+      } else {
+        setErrors({ general: errorMessage });
+      }
+    }
   };
 
   const handleGoogleLogin = () => {
     console.log("Google login");
+    // TODO: Implement Google OAuth with Cognito
   };
 
   const handleGithubLogin = () => {
     console.log("GitHub login");
+    // TODO: Implement GitHub OAuth with Cognito
   };
 
   const handleSlackLogin = () => {
     console.log("Slack login");
+    // TODO: Implement Slack OAuth with Cognito
   };
 
   return (
@@ -84,6 +121,22 @@ export default function LoginPage() {
               <Image src={Logo} alt="Xlya Logo" width={92} height={31} className="h-auto w-auto mx-auto" />
             </Link>
           </div>
+
+          {/* Verified Success Message */}
+          {showVerifiedMessage && (
+            <div className="mb-4 p-3 bg-green-500/10 border border-green-500/50 rounded-lg">
+              <p className="text-green-400 text-[0.78rem] text-center">
+                ✓ Email verified successfully! You can now login.
+              </p>
+            </div>
+          )}
+
+          {/* General Error Message */}
+          {errors.general && (
+            <div className="mb-4 p-3 bg-red-500/10 border border-red-500/50 rounded-lg">
+              <p className="text-red-400 text-[0.78rem] text-center">{errors.general}</p>
+            </div>
+          )}
 
           {/* Social Login Buttons */}
           <div className="mb-4">
@@ -241,5 +294,17 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    }>
+      <LoginContent />
+    </Suspense>
   );
 }

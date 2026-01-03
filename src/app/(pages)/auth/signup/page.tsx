@@ -7,9 +7,12 @@ import Image from "next/image";
 import Logo from "@/assets/images/Logo4.png";
 import AnimatedXBackground from "@/components/common/AnimatedXBackground";
 import AuthFeaturesSidebar from "@/components/auth/AuthFeaturesSidebar";
+import { useSignUpMutation } from "@/redux/services/auth/auth";
 
 export default function SignupPage() {
   const router = useRouter();
+  const [signUp, { isLoading }] = useSignUpMutation();
+  
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -17,7 +20,6 @@ export default function SignupPage() {
     password: "",
   });
   const [errors, setErrors] = useState<any>({});
-  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,24 +59,49 @@ export default function SignupPage() {
 
     if (!validateForm()) return;
 
-    setIsLoading(true);
+    try {
+      const result = await signUp({
+        firstname: formData.firstName,
+        lastname: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+      }).unwrap();
 
-    setTimeout(() => {
-      setIsLoading(false);
-      router.push(`/verify-email?email=${encodeURIComponent(formData.email)}`);
-    }, 1500);
+      // Success - redirect to verification page
+      router.push(`/auth/verify-email?email=${encodeURIComponent(formData.email)}`);
+    } catch (error: any) {
+      console.error("Signup error:", error);
+      
+      // Handle Cognito errors
+      const errorMessage = error?.message || error?.toString() || "An error occurred";
+      
+      if (errorMessage.includes("User already exists")) {
+        setErrors({ email: "An account with this email already exists" });
+      } else if (errorMessage.includes("password")) {
+        setErrors({ 
+          password: "Password must contain uppercase, lowercase, numbers, and special characters" 
+        });
+      } else if (errorMessage.includes("Username")) {
+        setErrors({ email: errorMessage });
+      } else {
+        setErrors({ general: errorMessage });
+      }
+    }
   };
 
   const handleGoogleSignup = () => {
     console.log("Google signup");
+    // TODO: Implement Google OAuth with Cognito
   };
 
   const handleGithubSignup = () => {
     console.log("GitHub signup");
+    // TODO: Implement GitHub OAuth with Cognito
   };
 
   const handleSlackSignup = () => {
     console.log("Slack signup");
+    // TODO: Implement Slack OAuth with Cognito
   };
 
   return (
@@ -94,6 +121,13 @@ export default function SignupPage() {
               <Image src={Logo} alt="Xlya Logo" width={92} height={31} className="h-auto w-auto mx-auto" />
             </Link>
           </div>
+
+          {/* General Error Message */}
+          {errors.general && (
+            <div className="mb-4 p-3 bg-red-500/10 border border-red-500/50 rounded-lg">
+              <p className="text-red-400 text-[0.78rem] text-center">{errors.general}</p>
+            </div>
+          )}
 
           {/* Social Sign Up Buttons */}
           <div className="mb-4">
