@@ -10,6 +10,8 @@ import {
   deleteUser,
   getCurrentUser,
   fetchAuthSession,
+  resetPassword,
+  confirmResetPassword,
   SignUpOutput,
   SignInOutput,
 } from "aws-amplify/auth";
@@ -320,6 +322,46 @@ export const authApi = createApi({
         }
       },
     }),
+
+    resetPassword: builder.mutation<boolean, { email: string }>({
+      async queryFn({ email }) {
+        try {
+          await resetPassword({ username: email });
+          return { data: true };
+        } catch (error: any) {
+          console.error("ResetPassword error details:", error);
+          return {
+            error: {
+              status: "CUSTOM_ERROR",
+              error: error.message || "Failed to send reset code",
+              data: error,
+            },
+          };
+        }
+      },
+    }),
+
+    confirmResetPassword: builder.mutation<boolean, { email: string; code: string; newPassword: string }>({
+      async queryFn({ email, code, newPassword }) {
+        try {
+          await confirmResetPassword({
+            username: email,
+            confirmationCode: code,
+            newPassword,
+          });
+          return { data: true };
+        } catch (error: any) {
+          console.error("ConfirmResetPassword error details:", error);
+          return {
+            error: {
+              status: "CUSTOM_ERROR",
+              error: error.message || "Failed to reset password",
+              data: error,
+            },
+          };
+        }
+      },
+    }),
   }),
 });
 
@@ -331,4 +373,6 @@ export const {
   useGetCurrentSessionQuery,
   useResendSignUpCodeMutation,
   useDeleteAccountMutation,
+  useResetPasswordMutation,
+  useConfirmResetPasswordMutation,
 } = authApi;

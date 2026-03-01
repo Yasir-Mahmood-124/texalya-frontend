@@ -8,6 +8,7 @@ import Logo from "@/assets/images/Logo4.png";
 import AnimatedXBackground from "@/components/common/AnimatedXBackground";
 import AuthFeaturesSidebar from "@/components/auth/AuthFeaturesSidebar";
 import { useSignUpMutation } from "@/redux/services/auth/auth";
+import { toast } from "@/components/snakbar";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -60,7 +61,7 @@ export default function SignupPage() {
     if (!validateForm()) return;
 
     try {
-      const result = await signUp({
+      await signUp({
         firstname: formData.firstName,
         lastname: formData.lastName,
         email: formData.email,
@@ -71,20 +72,20 @@ export default function SignupPage() {
       router.push(`/auth/verify-email?email=${encodeURIComponent(formData.email)}`);
     } catch (error: any) {
       console.error("Signup error:", error);
-      
-      // Handle Cognito errors
-      const errorMessage = error?.message || error?.toString() || "An error occurred";
-      
+
+      // Handle Cognito errors (RTK Query wraps errors in error?.error)
+      const errorMessage = error?.error || error?.message || "An error occurred";
+
       if (errorMessage.includes("User already exists")) {
         setErrors({ email: "An account with this email already exists" });
-      } else if (errorMessage.includes("password")) {
-        setErrors({ 
-          password: "Password must contain uppercase, lowercase, numbers, and special characters" 
+      } else if (errorMessage.toLowerCase().includes("password")) {
+        setErrors({
+          password: "Password must contain uppercase, lowercase, numbers, and special characters"
         });
       } else if (errorMessage.includes("Username")) {
         setErrors({ email: errorMessage });
       } else {
-        setErrors({ general: errorMessage });
+        toast.error(errorMessage);
       }
     }
   };
@@ -121,13 +122,6 @@ export default function SignupPage() {
               <Image src={Logo} alt="Xlya Logo" width={92} height={31} className="h-auto w-auto mx-auto" />
             </Link>
           </div>
-
-          {/* General Error Message */}
-          {errors.general && (
-            <div className="mb-4 p-3 bg-red-500/10 border border-red-500/50 rounded-lg">
-              <p className="text-red-400 text-[0.78rem] text-center">{errors.general}</p>
-            </div>
-          )}
 
           {/* Social Sign Up Buttons */}
           <div className="mb-4">
@@ -191,7 +185,7 @@ export default function SignupPage() {
                   First Name
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
+                  <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none z-10">
                     <svg className="w-[0.9rem] h-[0.9rem] text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
@@ -214,7 +208,7 @@ export default function SignupPage() {
                   Last Name
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
+                  <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none z-10">
                     <svg className="w-[0.9rem] h-[0.9rem] text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
@@ -240,7 +234,7 @@ export default function SignupPage() {
                 Email
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none z-10">
                   <svg className="w-[0.9rem] h-[0.9rem] text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
@@ -265,7 +259,7 @@ export default function SignupPage() {
                 Password
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none z-10">
                   <svg className="w-[0.9rem] h-[0.9rem] text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
