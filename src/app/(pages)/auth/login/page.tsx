@@ -69,8 +69,12 @@ function LoginContent() {
 
       console.log("Response:", Response); 
 
-      // Redirect to dashboard on success
-      router.push("/dashboard");
+      // Redirect to onboarding for first-time users, dashboard for returning users
+      const hasOnboarded =
+        typeof window !== "undefined"
+          ? localStorage.getItem("xlya_onboarding_completed")
+          : null;
+      router.push(hasOnboarded ? "/dashboard" : "/onboarding");
     } catch (error: any) {
       console.error("Login error:", error);
 
