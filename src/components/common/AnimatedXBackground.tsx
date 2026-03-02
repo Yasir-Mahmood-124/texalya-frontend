@@ -1,45 +1,42 @@
 export default function AnimatedXBackground() {
   return (
     <div className="x-bg-container-fixed">
-      {/* Top Left Corner */}
-      <div className="absolute top-10 left-10 x-md x-gold-primary x-shape animate-float-slow"></div>
-      <div className="absolute top-20 left-40 x-sm x-white-medium x-shape animate-bounce-slow"></div>
-      
-      {/* Top Center */}
-      <div className="absolute top-16 left-1/3 x-lg x-gold-secondary x-shape animate-float-medium"></div>
-      <div className="absolute top-32 left-1/2 x-sm-md x-gold-light x-shape animate-pulse-slow"></div>
-      
-      {/* Top Right Corner */}
-      <div className="absolute top-12 right-20 x-md-lg x-white-strong x-shape animate-float-fast"></div>
-      <div className="absolute top-28 right-1/4 x-sm x-gold-accent x-shape animate-bounce-medium"></div>
-      
-      {/* Middle Left */}
-      <div className="absolute top-1/3 left-16 x-lg x-gold-dark x-shape animate-pulse-slow"></div>
-      <div className="absolute top-1/2 left-32 x-sm-md x-white-medium x-shape animate-float-medium"></div>
-      
-      {/* Middle Center */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 x-lg-xl x-gold-primary x-shape animate-float-slow opacity-30"></div>
-      
-      {/* Middle Right */}
-      <div className="absolute top-1/3 right-24 x-md x-gold-light x-shape animate-bounce-fast"></div>
-      <div className="absolute top-1/2 right-1/3 x-lg x-white-medium x-shape animate-float-medium"></div>
-      
-      {/* Bottom Left Corner */}
-      <div className="absolute bottom-16 left-20 x-md-lg x-gold-secondary x-shape animate-float-fast"></div>
-      <div className="absolute bottom-32 left-1/4 x-sm x-white-strong x-shape animate-pulse-slow"></div>
-      
-      {/* Bottom Center */}
-      <div className="absolute bottom-20 left-1/2 x-lg x-gold-accent x-shape animate-bounce-medium"></div>
-      <div className="absolute bottom-36 left-2/3 x-sm-md x-gold-primary x-shape animate-float-slow"></div>
-      
-      {/* Bottom Right Corner */}
-      <div className="absolute bottom-12 right-16 x-md x-gold-light x-shape animate-float-medium"></div>
-      <div className="absolute bottom-28 right-1/4 x-lg x-white-medium x-shape animate-bounce-slow"></div>
-      
-      {/* Additional scattered X shapes */}
-      <div className="absolute top-1/4 left-2/3 x-sm x-gold-dark x-shape animate-pulse-slow"></div>
-      <div className="absolute bottom-1/4 left-1/3 x-sm-md x-white-strong x-shape animate-float-fast"></div>
-      <div className="absolute top-2/3 right-1/3 x-sm x-gold-secondary x-shape animate-bounce-medium"></div>
+      {/* Zone 1 — Top (0–20%) */}
+      <div className="absolute top-[3%] left-[5%] x-sm md:x-md x-gold-primary x-shape animate-float-slow"></div>
+      <div className="absolute top-[8%] left-[40%] x-sm x-gold-light x-shape animate-pulse-slow"></div>
+      <div className="absolute top-[5%] right-[6%] x-sm md:x-md-lg x-white-strong x-shape animate-float-fast"></div>
+      <div className="absolute top-[12%] left-[22%] x-sm x-white-medium x-shape animate-bounce-slow"></div>
+      <div className="absolute top-[15%] right-[28%] x-sm x-gold-accent x-shape animate-bounce-medium"></div>
+      <div className="absolute top-[10%] left-[65%] x-sm-md x-gold-secondary x-shape animate-float-medium"></div>
+
+      {/* Zone 2 — Upper-middle (20–40%) */}
+      <div className="absolute top-[22%] left-[4%] x-sm-md md:x-lg x-gold-dark x-shape animate-pulse-slow"></div>
+      <div className="absolute top-[28%] left-[35%] x-sm x-gold-light x-shape animate-float-medium"></div>
+      <div className="absolute top-[25%] right-[5%] x-sm md:x-md x-gold-light x-shape animate-bounce-fast"></div>
+      <div className="absolute top-[35%] left-[60%] x-sm x-gold-dark x-shape animate-pulse-slow"></div>
+      <div className="absolute top-[32%] right-[35%] x-sm x-white-medium x-shape animate-float-medium"></div>
+
+      {/* Zone 3 — Center (40–60%) */}
+      <div className="absolute top-[42%] left-[5%] x-sm-md x-white-medium x-shape animate-float-medium"></div>
+      <div className="absolute top-[48%] left-[28%] x-sm x-gold-accent x-shape animate-bounce-medium"></div>
+      <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 x-sm-md md:x-lg-xl x-gold-primary x-shape animate-float-slow opacity-30"></div>
+      <div className="absolute top-[45%] right-[6%] x-sm x-gold-secondary x-shape animate-bounce-medium"></div>
+      <div className="absolute top-[55%] right-[25%] x-sm x-white-medium x-shape animate-float-slow"></div>
+      <div className="absolute top-[52%] left-[70%] x-sm x-gold-light x-shape animate-pulse-slow"></div>
+
+      {/* Zone 4 — Lower-middle (60–80%) */}
+      <div className="absolute top-[62%] left-[8%] x-sm-md md:x-md-lg x-gold-secondary x-shape animate-float-fast"></div>
+      <div className="absolute top-[68%] left-[45%] x-sm x-white-strong x-shape animate-pulse-slow"></div>
+      <div className="absolute top-[65%] right-[8%] x-sm x-gold-primary x-shape animate-float-slow"></div>
+      <div className="absolute top-[75%] left-[25%] x-sm-md x-white-strong x-shape animate-float-fast"></div>
+      <div className="absolute top-[72%] right-[35%] x-sm x-gold-secondary x-shape animate-bounce-medium"></div>
+
+      {/* Zone 5 — Bottom (80–100%) */}
+      <div className="absolute top-[82%] left-[5%] x-sm md:x-md x-gold-light x-shape animate-float-medium"></div>
+      <div className="absolute top-[88%] left-[42%] x-sm-md md:x-lg x-gold-accent x-shape animate-bounce-medium"></div>
+      <div className="absolute top-[85%] right-[5%] x-sm md:x-md x-gold-light x-shape animate-float-medium"></div>
+      <div className="absolute top-[92%] left-[65%] x-sm-md x-gold-primary x-shape animate-float-slow"></div>
+      <div className="absolute top-[90%] right-[28%] x-sm md:x-lg x-white-medium x-shape animate-bounce-slow"></div>
     </div>
   );
 }

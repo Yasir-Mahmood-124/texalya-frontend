@@ -10,6 +10,7 @@ import AnimatedXBackground from "@/components/common/AnimatedXBackground";
 import AuthFeaturesSidebar from "@/components/auth/AuthFeaturesSidebar";
 import { useSignInMutation } from "@/redux/services/auth/auth";
 import { Suspense } from "react";
+import { toast } from "@/components/snakbar";
 
 function LoginContent() {
   const router = useRouter();
@@ -24,12 +25,10 @@ function LoginContent() {
   });
   const [errors, setErrors] = useState<any>({});
   const [showPassword, setShowPassword] = useState(false);
-  const [showVerifiedMessage, setShowVerifiedMessage] = useState(false);
 
   useEffect(() => {
     if (verified === "true") {
-      setShowVerifiedMessage(true);
-      setTimeout(() => setShowVerifiedMessage(false), 5000);
+      toast.success("Email verified successfully! You can now login.");
     }
   }, [verified]);
 
@@ -68,23 +67,27 @@ function LoginContent() {
         password: formData.password,
       }).unwrap();
 
-      // Redirect to dashboard on success
-      router.push("/dashboard");
+      console.log("Response:", Response); 
+
+      // Redirect to onboarding for first-time users, dashboard for returning users
+      const hasOnboarded =
+        typeof window !== "undefined"
+          ? localStorage.getItem("xlya_onboarding_completed")
+          : null;
+      router.push(hasOnboarded ? "/dashboard" : "/onboarding");
     } catch (error: any) {
       console.error("Login error:", error);
 
       const errorMessage = error?.error || error?.message || "An error occurred";
 
       if (errorMessage.includes("Incorrect username or password")) {
-        setErrors({ general: "Invalid email or password" });
+        toast.error("Invalid email or password");
       } else if (errorMessage.includes("User is not confirmed")) {
-        setErrors({ 
-          general: "Please verify your email before logging in" 
-        });
+        toast.error("Please verify your email before logging in");
       } else if (errorMessage.includes("User does not exist")) {
         setErrors({ email: "No account found with this email" });
       } else {
-        setErrors({ general: errorMessage });
+        toast.error(errorMessage);
       }
     }
   };
@@ -121,22 +124,6 @@ function LoginContent() {
               <Image src={Logo} alt="Xlya Logo" width={92} height={31} className="h-auto w-auto mx-auto" />
             </Link>
           </div>
-
-          {/* Verified Success Message */}
-          {showVerifiedMessage && (
-            <div className="mb-4 p-3 bg-green-500/10 border border-green-500/50 rounded-lg">
-              <p className="text-green-400 text-[0.78rem] text-center">
-                ✓ Email verified successfully! You can now login.
-              </p>
-            </div>
-          )}
-
-          {/* General Error Message */}
-          {errors.general && (
-            <div className="mb-4 p-3 bg-red-500/10 border border-red-500/50 rounded-lg">
-              <p className="text-red-400 text-[0.78rem] text-center">{errors.general}</p>
-            </div>
-          )}
 
           {/* Social Login Buttons */}
           <div className="mb-4">
@@ -199,7 +186,7 @@ function LoginContent() {
                 Email
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none z-10">
                   <svg className="w-[0.9rem] h-[0.9rem] text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
@@ -224,7 +211,7 @@ function LoginContent() {
                 Password
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none z-10">
                   <svg className="w-[0.9rem] h-[0.9rem] text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
@@ -262,7 +249,7 @@ function LoginContent() {
             {/* Forgot Password */}
             <div className="text-right">
               <Link
-                href="/forgot-password"
+                href="/auth/forgot-password"
                 className="text-[0.78rem] text-[var(--gold-primary)] hover:text-[var(--gold-light)] font-medium transition-colors"
               >
                 Forgot password?
