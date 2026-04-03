@@ -24,6 +24,8 @@ interface AuthState {
     userId: string;
     firstName?: string;
     lastName?: string;
+    onboardingStatus?: boolean;
+    userType?: string;
   } | null;
   isAuthenticated: boolean;
   tokens: {
@@ -52,6 +54,8 @@ interface UserSession {
     userId: string;
     firstName?: string;
     lastName?: string;
+    onboardingStatus?: boolean;
+    userType?: string;
   };
   tokens: {
     accessToken: string;
@@ -86,10 +90,30 @@ const authSlice = createSlice({
       };
       state.isAuthenticated = true;
       state.isLoading = false;
+
+      // Save to localStorage
+      if (typeof window !== "undefined") {
+        localStorage.setItem("xlya_user_data", JSON.stringify({
+          user: action.payload.user,
+          tokens: action.payload.tokens,
+        }));
+      }
     },
     setUser(state, action: PayloadAction<any>) {
       state.user = action.payload;
       state.isAuthenticated = true;
+
+      // Update localStorage
+      if (typeof window !== "undefined") {
+        const stored = localStorage.getItem("xlya_user_data");
+        if (stored) {
+          const data = JSON.parse(stored);
+          localStorage.setItem("xlya_user_data", JSON.stringify({
+            ...data,
+            user: action.payload,
+          }));
+        }
+      }
     },
     clearCredentials(state) {
       state.user = null;
@@ -100,14 +124,34 @@ const authSlice = createSlice({
       };
       state.isAuthenticated = false;
       state.isLoading = false;
+
+      // Clear localStorage
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("xlya_user_data");
+      }
     },
     setLoading(state, action: PayloadAction<boolean>) {
       state.isLoading = action.payload;
     },
+    loadFromStorage(state) {
+      if (typeof window !== "undefined") {
+        const stored = localStorage.getItem("xlya_user_data");
+        if (stored) {
+          try {
+            const data = JSON.parse(stored);
+            state.user = data.user;
+            state.tokens = data.tokens;
+            state.isAuthenticated = true;
+          } catch (error) {
+            console.error("Error loading user data from localStorage:", error);
+          }
+        }
+      }
+    },
   },
 });
 
-export const { setCredentials, setUser, clearCredentials, setLoading } = authSlice.actions;
+export const { setCredentials, setUser, clearCredentials, setLoading, loadFromStorage } = authSlice.actions;
 export const authReducer = authSlice.reducer;
 
 /* ---------- RTK Query (Cognito) ---------- */
@@ -168,6 +212,17 @@ export const authApi = createApi({
     signIn: builder.mutation<UserSession, SignInPayload>({
       async queryFn({ email, password }, { dispatch }) {
         try {
+          // Check if we're on the client side
+          if (typeof window === "undefined") {
+            return {
+              error: {
+                status: "CUSTOM_ERROR",
+                error: "Sign in must be performed on the client side",
+                data: null,
+              },
+            };
+          }
+
           // Sign in the user
           const signInResult = await signIn({
             username: email,
@@ -189,12 +244,40 @@ export const authApi = createApi({
             // Get user attributes from ID token
             const idTokenPayload = session.tokens?.idToken?.payload;
 
+            // Fetch user profile from backend to get onboarding_status and user_type
+            let onboardingStatus: boolean | undefined;
+            let userType: string | undefined;
+
+            try {
+              const profileResponse = await fetch(
+                "https://7i953oipvl.execute-api.us-east-1.amazonaws.com/dev/user/profile",
+                {
+                  method: "GET",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: user.userId,
+                  },
+                }
+              );
+
+              if (profileResponse.ok) {
+                const profileData = await profileResponse.json();
+                onboardingStatus = profileData.onboarding_status;
+                userType = profileData.user_type;
+              }
+            } catch (profileError) {
+              console.warn("Failed to fetch user profile:", profileError);
+              // Continue without profile data
+            }
+
             const userSession: UserSession = {
               user: {
                 email: idTokenPayload?.email as string,
                 userId: user.userId,
                 firstName: idTokenPayload?.given_name as string,
                 lastName: idTokenPayload?.family_name as string,
+                onboardingStatus,
+                userType,
               },
               tokens: {
                 accessToken,
@@ -202,7 +285,7 @@ export const authApi = createApi({
               },
             };
 
-            // Dispatch to Redux store
+            // Dispatch to Redux store (this also saves to localStorage)
             dispatch(setCredentials(userSession));
 
             return { data: userSession };
@@ -250,6 +333,11 @@ export const authApi = createApi({
     getCurrentSession: builder.query<UserSession | null, void>({
       async queryFn(_, { dispatch }) {
         try {
+          // Check if we're on the client side
+          if (typeof window === "undefined") {
+            return { data: null };
+          }
+
           const user = await getCurrentUser();
           const session = await fetchAuthSession();
 
@@ -258,12 +346,40 @@ export const authApi = createApi({
             const idToken = session.tokens.idToken?.toString() || "";
             const idTokenPayload = session.tokens.idToken?.payload;
 
+            // Fetch user profile from backend to get onboarding_status and user_type
+            let onboardingStatus: boolean | undefined;
+            let userType: string | undefined;
+
+            try {
+              const profileResponse = await fetch(
+                "https://7i953oipvl.execute-api.us-east-1.amazonaws.com/dev/user/profile",
+                {
+                  method: "GET",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: user.userId,
+                  },
+                }
+              );
+
+              if (profileResponse.ok) {
+                const profileData = await profileResponse.json();
+                onboardingStatus = profileData.onboarding_status;
+                userType = profileData.user_type;
+              }
+            } catch (profileError) {
+              console.warn("Failed to fetch user profile:", profileError);
+              // Continue without profile data
+            }
+
             const userSession: UserSession = {
               user: {
                 email: idTokenPayload?.email as string,
                 userId: user.userId,
                 firstName: idTokenPayload?.given_name as string,
                 lastName: idTokenPayload?.family_name as string,
+                onboardingStatus,
+                userType,
               },
               tokens: {
                 accessToken,

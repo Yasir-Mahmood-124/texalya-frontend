@@ -12,8 +12,10 @@ import WelcomeScreen from "@/components/onboarding/WelcomeScreen";
 import ProgressBar from "@/components/onboarding/ProgressBar";
 import QuestionStep from "@/components/onboarding/QuestionStep";
 import LoadingScreen from "@/components/onboarding/LoadingScreen";
-import { useAppSelector } from "@/redux/hooks";
-import { useGetCurrentSessionQuery } from "@/redux/services/auth/auth";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { useGetCurrentSessionQuery, setUser } from "@/redux/services/auth/auth";
+import { useSubmitOnboardingAnswerMutation } from "@/redux/services/onboarding/onboarding";
+import { toast } from "@/components/snakbar";
 
 // ─── Option datasets ──────────────────────────────────────────────────────────
 
@@ -167,8 +169,10 @@ const TEAM_STEPS: StepConfig[] = [STEP_USER_TYPE, STEP_TEAM_SIZE, STEP_ROLE, STE
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const { isAuthenticated } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const { isAuthenticated, user } = useAppSelector((state) => state.auth);
   const { isLoading: sessionLoading } = useGetCurrentSessionQuery();
+  const [submitAnswer, { isLoading: isSubmitting }] = useSubmitOnboardingAnswerMutation();
 
   const [screen, setScreen] = useState<"welcome" | "questions" | "loading">("welcome");
   const [currentStep, setCurrentStep] = useState(0);
@@ -188,13 +192,12 @@ export default function OnboardingPage() {
     }
   }, [sessionLoading, isAuthenticated, router]);
 
-  // Skip onboarding if already completed
+  // Skip onboarding if already completed (onboarding_status === false means completed)
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const done = localStorage.getItem("xlya_onboarding_completed");
-      if (done) router.push("/dashboard");
+    if (user?.onboardingStatus === false) {
+      router.push("/dashboard");
     }
-  }, [router]);
+  }, [user, router]);
 
   // Derived values
   const isTeam = answers.userType === "Team / Organization";
@@ -244,17 +247,71 @@ export default function OnboardingPage() {
     }
   };
 
-  const handleNext = () => {
-    if (currentStep < totalSteps - 1) {
-      transition(() => setCurrentStep((s) => s + 1));
-    } else {
-      setScreen("loading");
-      setTimeout(() => {
-        if (typeof window !== "undefined") {
-          localStorage.setItem("xlya_onboarding_completed", "true");
+  const handleNext = async () => {
+    try {
+      // Map current step to question_id and prepare answer
+      let questionId = "";
+      let answer = "";
+
+      const field = stepConfig.field;
+      const value = answers[field];
+
+      if (field === "userType") {
+        // First question (q1) - mandatory onboarding question
+        questionId = "q1";
+        answer = value === "Solo / Individual" ? "individual" : "team";
+      } else if (field === "goals") {
+        // Goals are multi-select, join with commas
+        answer = Array.isArray(value) ? value.join(", ") : "";
+        // Determine question_id based on user type
+        questionId = isTeam ? "q4" : "q4";
+      } else {
+        // Other questions (role, industry, teamSize)
+        answer = typeof value === "string" ? value : "";
+
+        // Map to question_id based on user type and step
+        if (isTeam) {
+          if (field === "teamSize") questionId = "q2";
+          else if (field === "role") questionId = "q3";
+          else if (field === "industry") questionId = "q4";
+        } else {
+          if (field === "role") questionId = "q2";
+          else if (field === "industry") questionId = "q3";
         }
-        router.push("/dashboard");
-      }, 3800);
+      }
+
+      // Submit answer to API
+      const response = await submitAnswer({
+        answer,
+        question_id: questionId === "q1" ? undefined : questionId,
+      }).unwrap();
+
+      console.log("Onboarding response:", response);
+
+      // Move to next step or complete
+      if (currentStep < totalSteps - 1) {
+        transition(() => setCurrentStep((s) => s + 1));
+      } else {
+        // Update Redux state to mark onboarding as completed
+        if (user) {
+          dispatch(
+            setUser({
+              ...user,
+              onboardingStatus: false,
+              userType: response.user_type || user.userType,
+            })
+          );
+        }
+
+        setScreen("loading");
+        setTimeout(() => {
+          toast.success("Onboarding completed successfully!");
+          router.push("/dashboard");
+        }, 3800);
+      }
+    } catch (error: any) {
+      console.error("Error submitting onboarding answer:", error);
+      toast.error(error?.data?.message || "Failed to save your answer. Please try again.");
     }
   };
 
@@ -267,8 +324,14 @@ export default function OnboardingPage() {
   };
 
   const handleSkip = () => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("xlya_onboarding_completed", "true");
+    // Update Redux state to mark onboarding as completed
+    if (user) {
+      dispatch(
+        setUser({
+          ...user,
+          onboardingStatus: false,
+        })
+      );
     }
     router.push("/dashboard");
   };
@@ -356,17 +419,26 @@ export default function OnboardingPage() {
 
                 <button
                   onClick={handleNext}
-                  disabled={!canProceed()}
+                  disabled={!canProceed() || isSubmitting}
                   className={`flex items-center gap-2 px-7 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 ${
-                    canProceed()
+                    canProceed() && !isSubmitting
                       ? "animate-button-gradient text-black hover:shadow-lg hover:shadow-[var(--gold-primary)]/20 hover:scale-[1.02]"
                       : "bg-white/5 text-gray-600 cursor-not-allowed border border-white/10"
                   }`}
                 >
-                  {currentStep === totalSteps - 1 ? "Finish" : "Next"}
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-4 h-4 rounded-full border-2 border-gray-600 border-t-gray-400 animate-spin" />
+                      Saving...
+                    </>
+                  ) : (
+                    <>
+                      {currentStep === totalSteps - 1 ? "Finish" : "Next"}
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </>
+                  )}
                 </button>
               </div>
             </div>

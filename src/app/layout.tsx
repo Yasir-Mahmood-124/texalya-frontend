@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import ThemeProvider from "@/utils/theme-provider";
 import { Providers } from "@/redux/provider";
-import "@/lib/aws/amplify";
+import { AmplifyConfigProvider } from "@/components/providers/AmplifyConfigProvider";
 import { ToastProvider } from "@/components/snakbar";
 
 export const metadata: Metadata = {
@@ -18,12 +18,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-black min-h-screen">
-        <ThemeProvider>
-          <Providers>
-            {children}
-            <ToastProvider />
-          </Providers>
-        </ThemeProvider>
+        <AmplifyConfigProvider>
+          <ThemeProvider>
+            <Providers>
+              {children}
+              <ToastProvider />
+            </Providers>
+          </ThemeProvider>
+        </AmplifyConfigProvider>
       </body>
     </html>
   );
