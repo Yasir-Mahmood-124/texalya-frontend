@@ -193,11 +193,12 @@ export default function OnboardingPage() {
   }, [sessionLoading, isAuthenticated, router]);
 
   // Skip onboarding if already completed (onboarding_status === false means completed)
+  // Guard against firing during the loading screen animation at the end of onboarding
   useEffect(() => {
-    if (user?.onboardingStatus === false) {
+    if (user?.onboardingStatus === false && screen !== "loading") {
       router.push("/dashboard");
     }
-  }, [user, router]);
+  }, [user, router, screen]);
 
   // Derived values
   const isTeam = answers.userType === "Team / Organization";
@@ -357,7 +358,7 @@ export default function OnboardingPage() {
         <Link href="/">
           <Image src={Logo} alt="Xlya" width={90} height={30} className="h-auto w-auto" />
         </Link>
-        {screen === "questions" && (
+        {screen === "questions" && currentStep > 0 && (
           <button
             onClick={handleSkip}
             className="text-gray-500 hover:text-gray-300 text-sm transition-colors duration-200 flex items-center gap-1"

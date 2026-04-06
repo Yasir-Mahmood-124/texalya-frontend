@@ -26,6 +26,13 @@ interface AuthState {
     lastName?: string;
     onboardingStatus?: boolean;
     userType?: string;
+    image?: string;
+    gender?: string;
+    country?: string;
+    address?: string;
+    phoneNumber?: string;
+    age?: number;
+    socialLinks?: Record<string, string>;
   } | null;
   isAuthenticated: boolean;
   tokens: {
@@ -54,8 +61,6 @@ interface UserSession {
     userId: string;
     firstName?: string;
     lastName?: string;
-    onboardingStatus?: boolean;
-    userType?: string;
   };
   tokens: {
     accessToken: string;
@@ -90,29 +95,24 @@ const authSlice = createSlice({
       };
       state.isAuthenticated = true;
       state.isLoading = false;
-
-      // Save to localStorage
-      if (typeof window !== "undefined") {
-        localStorage.setItem("xlya_user_data", JSON.stringify({
-          user: action.payload.user,
-          tokens: action.payload.tokens,
-        }));
-      }
+      // No localStorage write here — login page writes UserData with raw profile API response
+    },
+    setTokens(state, action: PayloadAction<{ accessToken: string; idToken: string }>) {
+      // Refreshes tokens in Redux only, never touches localStorage
+      state.tokens.accessToken = action.payload.accessToken;
+      state.tokens.idToken = action.payload.idToken;
+      state.isAuthenticated = true;
     },
     setUser(state, action: PayloadAction<any>) {
       state.user = action.payload;
       state.isAuthenticated = true;
 
-      // Update localStorage
+      // Always update UserData so onboardingStatus changes are persisted
       if (typeof window !== "undefined") {
-        const stored = localStorage.getItem("xlya_user_data");
-        if (stored) {
-          const data = JSON.parse(stored);
-          localStorage.setItem("xlya_user_data", JSON.stringify({
-            ...data,
-            user: action.payload,
-          }));
-        }
+        localStorage.setItem("UserData", JSON.stringify({
+          user: action.payload,
+          tokens: state.tokens,
+        }));
       }
     },
     clearCredentials(state) {
@@ -127,7 +127,7 @@ const authSlice = createSlice({
 
       // Clear localStorage
       if (typeof window !== "undefined") {
-        localStorage.removeItem("xlya_user_data");
+        localStorage.removeItem("UserData");
       }
     },
     setLoading(state, action: PayloadAction<boolean>) {
@@ -135,11 +135,27 @@ const authSlice = createSlice({
     },
     loadFromStorage(state) {
       if (typeof window !== "undefined") {
-        const stored = localStorage.getItem("xlya_user_data");
+        const stored = localStorage.getItem("UserData");
         if (stored) {
           try {
             const data = JSON.parse(stored);
-            state.user = data.user;
+            const u = data.user;
+            // Map snake_case API fields to camelCase Redux state
+            state.user = {
+              email: u.email,
+              userId: u.userId,
+              firstName: u.first_name ?? u.firstName,
+              lastName: u.last_name ?? u.lastName,
+              onboardingStatus: u.onboarding_status ?? u.onboardingStatus,
+              userType: u.user_type ?? u.userType,
+              image: u.image,
+              gender: u.gender,
+              country: u.country,
+              address: u.address,
+              phoneNumber: u.phone_number ?? u.phoneNumber,
+              age: u.age,
+              socialLinks: u.social_links ?? u.socialLinks,
+            };
             state.tokens = data.tokens;
             state.isAuthenticated = true;
           } catch (error) {
@@ -151,7 +167,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { setCredentials, setUser, clearCredentials, setLoading, loadFromStorage } = authSlice.actions;
+export const { setCredentials, setTokens, setUser, clearCredentials, setLoading, loadFromStorage } = authSlice.actions;
 export const authReducer = authSlice.reducer;
 
 /* ---------- RTK Query (Cognito) ---------- */
@@ -223,6 +239,13 @@ export const authApi = createApi({
             };
           }
 
+          // If a stale Cognito session exists, clear it before signing in
+          try {
+            await signOut();
+          } catch (_) {
+            // ignore — no active session to clear
+          }
+
           // Sign in the user
           const signInResult = await signIn({
             username: email,
@@ -244,40 +267,12 @@ export const authApi = createApi({
             // Get user attributes from ID token
             const idTokenPayload = session.tokens?.idToken?.payload;
 
-            // Fetch user profile from backend to get onboarding_status and user_type
-            let onboardingStatus: boolean | undefined;
-            let userType: string | undefined;
-
-            try {
-              const profileResponse = await fetch(
-                "https://7i953oipvl.execute-api.us-east-1.amazonaws.com/dev/user/profile",
-                {
-                  method: "GET",
-                  headers: {
-                    "Content-Type": "application/json",
-                    Authorization: user.userId,
-                  },
-                }
-              );
-
-              if (profileResponse.ok) {
-                const profileData = await profileResponse.json();
-                onboardingStatus = profileData.onboarding_status;
-                userType = profileData.user_type;
-              }
-            } catch (profileError) {
-              console.warn("Failed to fetch user profile:", profileError);
-              // Continue without profile data
-            }
-
             const userSession: UserSession = {
               user: {
                 email: idTokenPayload?.email as string,
                 userId: user.userId,
                 firstName: idTokenPayload?.given_name as string,
                 lastName: idTokenPayload?.family_name as string,
-                onboardingStatus,
-                userType,
               },
               tokens: {
                 accessToken,
@@ -346,31 +341,8 @@ export const authApi = createApi({
             const idToken = session.tokens.idToken?.toString() || "";
             const idTokenPayload = session.tokens.idToken?.payload;
 
-            // Fetch user profile from backend to get onboarding_status and user_type
-            let onboardingStatus: boolean | undefined;
-            let userType: string | undefined;
-
-            try {
-              const profileResponse = await fetch(
-                "https://7i953oipvl.execute-api.us-east-1.amazonaws.com/dev/user/profile",
-                {
-                  method: "GET",
-                  headers: {
-                    "Content-Type": "application/json",
-                    Authorization: user.userId,
-                  },
-                }
-              );
-
-              if (profileResponse.ok) {
-                const profileData = await profileResponse.json();
-                onboardingStatus = profileData.onboarding_status;
-                userType = profileData.user_type;
-              }
-            } catch (profileError) {
-              console.warn("Failed to fetch user profile:", profileError);
-              // Continue without profile data
-            }
+            // Only refresh tokens in Redux — never overwrite UserData localStorage
+            dispatch(setTokens({ accessToken, idToken }));
 
             const userSession: UserSession = {
               user: {
@@ -378,23 +350,25 @@ export const authApi = createApi({
                 userId: user.userId,
                 firstName: idTokenPayload?.given_name as string,
                 lastName: idTokenPayload?.family_name as string,
-                onboardingStatus,
-                userType,
               },
-              tokens: {
-                accessToken,
-                idToken,
-              },
+              tokens: { accessToken, idToken },
             };
-
-            dispatch(setCredentials(userSession));
             return { data: userSession };
           }
 
           return { data: null };
         } catch (error: any) {
           console.error("GetCurrentSession error:", error);
-          dispatch(clearCredentials());
+          // Only clear credentials on a genuine "no active user" error.
+          // Never clear on config/network errors — that would wipe UserData.
+          const name = error?.name || "";
+          if (
+            name === "UserUnAuthenticatedException" ||
+            name === "NotAuthorizedException" ||
+            name === "UserNotFoundException"
+          ) {
+            dispatch(clearCredentials());
+          }
           return { data: null };
         }
       },
