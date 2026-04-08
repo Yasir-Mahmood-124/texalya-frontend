@@ -12,9 +12,9 @@ const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
 
   const rotatingLines = [
-    "Design, Automate and Grow with AI",
-    "Create, Optimize and Scale with AI",
-    "Innovate, Streamline and Succeed with AI"
+    "Work Smarter with Apps & Agents",
+    "One Platform, Endless Capability.",
+    "Your All-in-One AI Workspace"
   ];
 
   useEffect(() => {
@@ -67,15 +67,33 @@ const Hero = () => {
     };
   }, []);
 
+  const goldenPhrases = ["Apps & Agents", "Capability", "AI Workspace"];
+
   const renderText = () => {
-    if (displayedText.endsWith("AI")) {
-      const textWithoutAI = displayedText.slice(0, -2);
-      return (
-        <>
-          <span className="text-white">{textWithoutAI}</span>
-          <span className="text-[var(--gold-primary)]">AI</span>
-        </>
-      );
+    for (const phrase of goldenPhrases) {
+      const idx = displayedText.indexOf(phrase);
+      if (idx !== -1) {
+        return (
+          <>
+            <span className="text-white">{displayedText.slice(0, idx)}</span>
+            <span className="text-[var(--gold-primary)]">{displayedText.slice(idx, idx + phrase.length)}</span>
+            <span className="text-white">{displayedText.slice(idx + phrase.length)}</span>
+          </>
+        );
+      }
+      // partial match at the end (still typing the phrase)
+      for (let len = phrase.length - 1; len > 0; len--) {
+        if (displayedText.endsWith(phrase.slice(0, len))) {
+          const before = displayedText.slice(0, displayedText.length - len);
+          const partial = displayedText.slice(displayedText.length - len);
+          return (
+            <>
+              <span className="text-white">{before}</span>
+              <span className="text-[var(--gold-primary)]">{partial}</span>
+            </>
+          );
+        }
+      }
     }
     return <span className="text-white">{displayedText}</span>;
   };
@@ -91,13 +109,13 @@ const Hero = () => {
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         }`}
       >
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight min-h-[1.5em]">
+        <h1 className="text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 leading-tight min-h-[1.5em]">
           {renderText()}
           <span className="animate-pulse text-[var(--gold-primary)]">|</span>
         </h1>
 
         <p className="text-lg sm:text-xl md:text-2xl text-[#918C94] mb-6 sm:mb-8">
-          Xlya - Your Intelligent SaaS Solution
+          Xlya – Smart Apps & Multi-Purpose Agents
         </p>
 
         <Link href="/auth/signup">
@@ -108,12 +126,7 @@ const Hero = () => {
 
         <div className="max-w-4xl mx-auto">
           <p className="text-sm sm:text-base md:text-lg text-[#918C94] leading-relaxed">
-            Xlya is an AI-powered SaaS platform that unifies design,
-            automation, analytics and collaboration into one seamless
-            ecosystem. It replaces multiple tools from AI-driven creation to
-            CRM and scheduling with an integrated, scalable solution that
-            helps businesses of all sizes operate smarter, faster and more
-            efficiently through connected, intelligent innovation.
+            Xlya delivers two powerful things in one platform: productivity Apps for daily tasks and intelligent Agents for complex workflows. From lead calculation to medical diagnosis, SEO analysis to automated meeting scheduling – get more done with specialized AI.
           </p>
         </div>
       </div>

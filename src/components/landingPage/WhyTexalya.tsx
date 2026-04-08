@@ -11,11 +11,9 @@ const WhyTexalya = () => {
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                }
+                setIsVisible(entry.isIntersecting);
             },
-            { threshold: 0.1, rootMargin: "-50px" }
+            { threshold: 0.05 }
         );
 
         if (sectionRef.current) {
@@ -31,45 +29,45 @@ const WhyTexalya = () => {
 
     const features = [
         {
-            icon: <Lightbulb className="w-5 h-5" />,
-            number: "01",
-            title: "AI Pattern Generator",
-            description: "Turn text prompts into seamless fabric patterns instantly with AI-powered design tools"
-        },
-        {
-            icon: <Calendar className="w-5 h-5" />,
-            number: "02",
-            title: "Smart Scheduler & Calendar",
-            description: "Manage production timelines, allocate resources, and avoid delays with intelligent planning"
-        },
-        {
-            icon: <Users className="w-5 h-5" />,
-            number: "03",
-            title: "CRM & Workflow Dashboard",
-            description: "Track clients, manage orders, create invoices, and streamline your entire workflow"
-        },
-        {
             icon: <TrendingUp className="w-5 h-5" />,
-            number: "04",
-            title: "Analytics & Insights",
-            description: "Forecast demand, analyze supplier performance, and make data-driven decisions"
+            number: "01",
+            title: "Lead Calculator App",
+            description: "Instantly calculate lead value, conversion probability, and ROI. Perfect for sales teams and marketers."
         },
         {
             icon: <Settings className="w-5 h-5" />,
-            number: "05",
-            title: "Fabric Estimator",
-            description: "Calculate precise fabric requirements to reduce wastage and optimize material costs"
+            number: "02",
+            title: "Online Word File Editor App",
+            description: "Edit, annotate, and collaborate on Word documents directly in your browser. No installation needed."
+        },
+        {
+            icon: <Lightbulb className="w-5 h-5" />,
+            number: "03",
+            title: "MediMind Agent",
+            description: "Medical report analysis agent. Upload a report – the agent reads it and identifies potential diseases with high confidence."
         },
         {
             icon: <Rocket className="w-5 h-5" />,
+            number: "04",
+            title: "SEO/AEO/GEO + Competitor Analysis Agent",
+            description: "Analyze any website or brand/product for Search, Answer Engine, and Generative Engine Optimization. Includes full competitor breakdown."
+        },
+        {
+            icon: <Calendar className="w-5 h-5" />,
+            number: "05",
+            title: "Meeting Prep Agent",
+            description: "Provide topic, guest emails, and time. Agent automatically schedules the call on Google Meet and sends invites."
+        },
+        {
+            icon: <Users className="w-5 h-5" />,
             number: "06",
-            title: "All-in-One Platform",
-            description: "Unified SaaS solution replacing multiple tools from AI-driven creation to CRM and scheduling"
+            title: "Strategy Document Generator Agent",
+            description: "Chatbot-style AI agent that creates complete business strategy documents: ICP, GTM, BS, KMF, SR and more."
         }
     ];
 
     return (
-        <section ref={sectionRef} className="relative py-16 sm:py-20 lg:py-28 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <section ref={sectionRef} className="relative py-16 sm:py-20 lg:py-28 px-4 sm:px-6 lg:px-8">
             {/* Background decorative glows */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div
@@ -86,7 +84,7 @@ const WhyTexalya = () => {
                 />
             </div>
 
-            <div className="relative max-w-7xl mx-auto">
+            <div className={`relative max-w-7xl mx-auto transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
                 {/* Section header */}
                 <div
                     className={`text-center mb-12 sm:mb-16 transition-all duration-1000 ${
@@ -114,11 +112,12 @@ const WhyTexalya = () => {
                     </div>
 
                     <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
-                        Everything your textile business{" "}
-                        <span style={{ color: "var(--gold-primary)" }}>needs</span>
+                        Everything Your{" "}
+                        <span style={{ color: "var(--gold-primary)" }}>Business</span>
+                        {" "}Needs
                     </h2>
                     <p className="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
-                        One unified platform built for the modern textile industry — from AI-driven design to full business operations.
+                        One unified platform giving you two core capabilities – ready-to-use business Apps and autonomous Multi-Purpose Agents for specialized tasks.
                     </p>
                 </div>
 
