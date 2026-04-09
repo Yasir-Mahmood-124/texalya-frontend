@@ -24,6 +24,15 @@ interface AuthState {
     userId: string;
     firstName?: string;
     lastName?: string;
+    onboardingStatus?: boolean;
+    userType?: string;
+    image?: string;
+    gender?: string;
+    country?: string;
+    address?: string;
+    phoneNumber?: string;
+    age?: number;
+    socialLinks?: Record<string, string>;
   } | null;
   isAuthenticated: boolean;
   tokens: {
@@ -86,10 +95,25 @@ const authSlice = createSlice({
       };
       state.isAuthenticated = true;
       state.isLoading = false;
+      // No localStorage write here — login page writes UserData with raw profile API response
+    },
+    setTokens(state, action: PayloadAction<{ accessToken: string; idToken: string }>) {
+      // Refreshes tokens in Redux only, never touches localStorage
+      state.tokens.accessToken = action.payload.accessToken;
+      state.tokens.idToken = action.payload.idToken;
+      state.isAuthenticated = true;
     },
     setUser(state, action: PayloadAction<any>) {
       state.user = action.payload;
       state.isAuthenticated = true;
+
+      // Always update UserData so onboardingStatus changes are persisted
+      if (typeof window !== "undefined") {
+        localStorage.setItem("UserData", JSON.stringify({
+          user: action.payload,
+          tokens: state.tokens,
+        }));
+      }
     },
     clearCredentials(state) {
       state.user = null;
@@ -100,14 +124,50 @@ const authSlice = createSlice({
       };
       state.isAuthenticated = false;
       state.isLoading = false;
+
+      // Clear localStorage
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("UserData");
+      }
     },
     setLoading(state, action: PayloadAction<boolean>) {
       state.isLoading = action.payload;
     },
+    loadFromStorage(state) {
+      if (typeof window !== "undefined") {
+        const stored = localStorage.getItem("UserData");
+        if (stored) {
+          try {
+            const data = JSON.parse(stored);
+            const u = data.user;
+            // Map snake_case API fields to camelCase Redux state
+            state.user = {
+              email: u.email,
+              userId: u.userId,
+              firstName: u.first_name ?? u.firstName,
+              lastName: u.last_name ?? u.lastName,
+              onboardingStatus: u.onboarding_status ?? u.onboardingStatus,
+              userType: u.user_type ?? u.userType,
+              image: u.image,
+              gender: u.gender,
+              country: u.country,
+              address: u.address,
+              phoneNumber: u.phone_number ?? u.phoneNumber,
+              age: u.age,
+              socialLinks: u.social_links ?? u.socialLinks,
+            };
+            state.tokens = data.tokens;
+            state.isAuthenticated = true;
+          } catch (error) {
+            console.error("Error loading user data from localStorage:", error);
+          }
+        }
+      }
+    },
   },
 });
 
-export const { setCredentials, setUser, clearCredentials, setLoading } = authSlice.actions;
+export const { setCredentials, setTokens, setUser, clearCredentials, setLoading, loadFromStorage } = authSlice.actions;
 export const authReducer = authSlice.reducer;
 
 /* ---------- RTK Query (Cognito) ---------- */
@@ -168,6 +228,24 @@ export const authApi = createApi({
     signIn: builder.mutation<UserSession, SignInPayload>({
       async queryFn({ email, password }, { dispatch }) {
         try {
+          // Check if we're on the client side
+          if (typeof window === "undefined") {
+            return {
+              error: {
+                status: "CUSTOM_ERROR",
+                error: "Sign in must be performed on the client side",
+                data: null,
+              },
+            };
+          }
+
+          // If a stale Cognito session exists, clear it before signing in
+          try {
+            await signOut();
+          } catch (_) {
+            // ignore — no active session to clear
+          }
+
           // Sign in the user
           const signInResult = await signIn({
             username: email,
@@ -202,7 +280,7 @@ export const authApi = createApi({
               },
             };
 
-            // Dispatch to Redux store
+            // Dispatch to Redux store (this also saves to localStorage)
             dispatch(setCredentials(userSession));
 
             return { data: userSession };
@@ -250,6 +328,11 @@ export const authApi = createApi({
     getCurrentSession: builder.query<UserSession | null, void>({
       async queryFn(_, { dispatch }) {
         try {
+          // Check if we're on the client side
+          if (typeof window === "undefined") {
+            return { data: null };
+          }
+
           const user = await getCurrentUser();
           const session = await fetchAuthSession();
 
@@ -258,6 +341,9 @@ export const authApi = createApi({
             const idToken = session.tokens.idToken?.toString() || "";
             const idTokenPayload = session.tokens.idToken?.payload;
 
+            // Only refresh tokens in Redux — never overwrite UserData localStorage
+            dispatch(setTokens({ accessToken, idToken }));
+
             const userSession: UserSession = {
               user: {
                 email: idTokenPayload?.email as string,
@@ -265,20 +351,24 @@ export const authApi = createApi({
                 firstName: idTokenPayload?.given_name as string,
                 lastName: idTokenPayload?.family_name as string,
               },
-              tokens: {
-                accessToken,
-                idToken,
-              },
+              tokens: { accessToken, idToken },
             };
-
-            dispatch(setCredentials(userSession));
             return { data: userSession };
           }
 
           return { data: null };
         } catch (error: any) {
           console.error("GetCurrentSession error:", error);
-          dispatch(clearCredentials());
+          // Only clear credentials on a genuine "no active user" error.
+          // Never clear on config/network errors — that would wipe UserData.
+          const name = error?.name || "";
+          if (
+            name === "UserUnAuthenticatedException" ||
+            name === "NotAuthorizedException" ||
+            name === "UserNotFoundException"
+          ) {
+            dispatch(clearCredentials());
+          }
           return { data: null };
         }
       },

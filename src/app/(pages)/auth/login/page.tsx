@@ -9,6 +9,7 @@ import Logo from "@/assets/images/Logo4.png";
 import AnimatedXBackground from "@/components/common/AnimatedXBackground";
 import AuthFeaturesSidebar from "@/components/auth/AuthFeaturesSidebar";
 import { useSignInMutation } from "@/redux/services/auth/auth";
+import { useLazyGetProfileInfoQuery } from "@/redux/services/auth/profileInfo";
 import { Suspense } from "react";
 import { toast } from "@/components/snakbar";
 
@@ -18,6 +19,8 @@ function LoginContent() {
   const verified = searchParams.get("verified");
 
   const [signIn, { isLoading }] = useSignInMutation();
+  const [fetchProfileInfo] = useLazyGetProfileInfoQuery();
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -62,20 +65,27 @@ function LoginContent() {
     if (!validateForm()) return;
 
     try {
-      await signIn({
+      setIsRedirecting(true);
+
+      const result = await signIn({
         email: formData.email,
         password: formData.password,
       }).unwrap();
 
-      console.log("Response:", Response); 
+      // Fetch full profile info from API (onboarding_status, image, gender, etc.)
+      const profileData = await fetchProfileInfo().unwrap();
 
-      // Redirect to onboarding for first-time users, dashboard for returning users
-      const hasOnboarded =
-        typeof window !== "undefined"
-          ? localStorage.getItem("xlya_onboarding_completed")
-          : null;
-      router.push(hasOnboarded ? "/dashboard" : "/onboarding");
+      // Save exactly what the profile API returns to UserData (plus userId for auth)
+      localStorage.setItem("UserData", JSON.stringify({
+        user: { ...profileData, userId: result.user.userId },
+        tokens: result.tokens,
+      }));
+
+      // onboarding_status true → not yet done → go to onboarding
+      // onboarding_status false → completed → go to dashboard
+      router.push(profileData.onboarding_status === false ? "/dashboard" : "/onboarding");
     } catch (error: any) {
+      setIsRedirecting(false);
       console.error("Login error:", error);
 
       const errorMessage = error?.error || error?.message || "An error occurred";
@@ -259,10 +269,10 @@ function LoginContent() {
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || isRedirecting}
               className="animate-button-gradient w-full bg-gradient-to-r from-[var(--gold-primary)] to-[var(--gold-secondary)] text-black font-semibold py-2.5 rounded-lg hover:shadow-xl hover:shadow-[var(--gold-primary)]/20 transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 text-[0.78rem]"
             >
-              {isLoading ? "Logging in..." : "Login"}
+              {isLoading || isRedirecting ? "Logging in..." : "Login"}
             </button>
           </form>
 

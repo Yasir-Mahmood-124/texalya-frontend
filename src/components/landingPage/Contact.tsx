@@ -76,7 +76,7 @@ const Contact = () => {
     <section
       ref={sectionRef}
       id="contact"
-      className="bg-black py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8"
+      className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8"
     >
       <div
         className={`max-w-7xl mx-auto transition-all duration-1000 ${
@@ -87,13 +87,13 @@ const Contact = () => {
           {/* Left Side - Info */}
           <div className="space-y-6">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
-              Get in touch with{" "}
+              Ready to deploy your{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--gold-primary)] to-[var(--gold-secondary)]">
-                Xlya
+                AI Apps & Agents?
               </span>
             </h2>
             <p className="text-lg sm:text-xl text-gray-400 leading-relaxed">
-              Questions, ideas, or feedback? We'd love to hear from you.
+              Questions about a specific agent or need a custom solution? We'd love to help.
             </p>
 
             <div className="pt-4 space-y-4">
@@ -139,7 +139,7 @@ const Contact = () => {
                 </svg>
                 <div>
                   <h3 className="text-white font-semibold">Location</h3>
-                  <p className="text-gray-400">Available Worldwide</p>
+                  <p className="text-gray-400">Available Worldwide | Access via Web</p>
                 </div>
               </div>
             </div>

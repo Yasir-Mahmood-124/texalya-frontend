@@ -21,17 +21,20 @@ export default function ProtectedRoute({
     }
   }, [isAuthenticated, isLoading, router]);
 
+  // Already authenticated from localStorage — show children immediately
+  // while getCurrentSession refreshes tokens in the background
+  if (isAuthenticated) {
+    return <>{children}</>;
+  }
+
+  // Not yet authenticated — wait for getCurrentSession to resolve
   if (isLoading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-white">Loading...</div>
+        <div className="w-8 h-8 rounded-full border-2 border-white/10 border-t-[var(--gold-primary)] animate-spin" />
       </div>
     );
   }
 
-  if (!isAuthenticated) {
-    return null;
-  }
-
-  return <>{children}</>;
+  return null;
 }

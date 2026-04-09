@@ -1,7 +1,6 @@
 // src/components/providers/AmplifyConfigProvider.tsx
 "use client";
 
-import { useEffect } from "react";
 import { Amplify } from "aws-amplify";
 
 const amplifyConfig = {
@@ -35,14 +34,14 @@ const amplifyConfig = {
   },
 };
 
+// Configure synchronously at module level so Amplify is ready before any
+// component (including getCurrentSession in ProtectedRoute) tries to use it.
+Amplify.configure(amplifyConfig, { ssr: true });
+
 export function AmplifyConfigProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  useEffect(() => {
-    Amplify.configure(amplifyConfig, { ssr: true });
-  }, []);
-
   return <>{children}</>;
 }
