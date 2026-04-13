@@ -26,6 +26,19 @@ export interface ProfileInfo {
   onboarding_status: boolean;
 }
 
+export interface UpdateProfilePayload {
+  first_name: string;
+  last_name: string;
+  email: string;
+  age?: number;
+  phone_number?: string;
+  gender?: string;
+  country?: string;
+  address?: string;
+  image?: string;
+  social_links?: SocialLinks;
+}
+
 /* ---------- API ---------- */
 
 export const profileInfoApi = baseApi.injectEndpoints({
@@ -37,7 +50,23 @@ export const profileInfoApi = baseApi.injectEndpoints({
       }),
       providesTags: ["User"],
     }),
+
+    updateProfileInfo: builder.mutation<
+      { message: string; updated_fields: Record<string, unknown> },
+      UpdateProfilePayload
+    >({
+      query: (body) => ({
+        url: "/profile/personal-info",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
-export const { useGetProfileInfoQuery, useLazyGetProfileInfoQuery } = profileInfoApi;
+export const {
+  useGetProfileInfoQuery,
+  useLazyGetProfileInfoQuery,
+  useUpdateProfileInfoMutation,
+} = profileInfoApi;

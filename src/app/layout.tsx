@@ -6,7 +6,7 @@ import { AmplifyConfigProvider } from "@/components/providers/AmplifyConfigProvi
 import { ToastProvider } from "@/components/snakbar";
 
 export const metadata: Metadata = {
-  title: "Texalya",
+  title: "Xlya",
   description: "Your landing page description",
 };
 

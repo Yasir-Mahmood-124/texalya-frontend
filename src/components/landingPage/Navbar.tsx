@@ -24,7 +24,7 @@ const Navbar = ({ showNavLinks = true }: NavbarProps) => {
                         <Link href="/">
                             <Image 
                                 src={Logo}
-                                alt="Texalya Logo"
+                                alt="Xlya Logo"
                                 width={150}
                                 height={100}
                                 className="h-auto w-auto"

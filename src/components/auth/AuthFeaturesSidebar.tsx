@@ -7,7 +7,7 @@ export default function AuthFeaturesSidebar() {
     <div className="hidden lg:flex lg:w-1/2 flex-col justify-center px-14 relative z-10">
       <div className="mb-7">
         <Link href="/">
-          <Image src={Logo} alt="Texalya Logo" width={110} height={38} className="h-auto w-auto" />
+          <Image src={Logo} alt="Xlya Logo" width={110} height={38} className="h-auto w-auto" />
         </Link>
       </div>
 

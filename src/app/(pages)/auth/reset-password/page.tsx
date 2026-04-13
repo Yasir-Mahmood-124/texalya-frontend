@@ -77,7 +77,7 @@ export default function ResetPasswordPage() {
           <Link href="/">
             <Image
               src={Logo}
-              alt="Texalya Logo"
+              alt="Xlya Logo"
               width={120}
               height={40}
               className="h-auto w-auto mx-auto"
