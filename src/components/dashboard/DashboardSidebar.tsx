@@ -15,16 +15,18 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   ChevronUp,
+  Brain,
 } from "lucide-react";
 import Logo from "@/assets/images/Logo4.png";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { clearCredentials, useSignOutMutation } from "@/redux/services/auth/auth";
 
 const navItems = [
-  { label: "Dashboard",  href: "/dashboard",         icon: LayoutDashboard },
-  { label: "Agents",     href: "/dashboard/agents",  icon: Bot             },
-  { label: "Apps",       href: "/dashboard/apps",    icon: AppWindow       },
-  { label: "My Profile", href: "/dashboard/profile", icon: UserCircle      },
+  { label: "Dashboard",  href: "/dashboard",           icon: LayoutDashboard },
+  { label: "Agents",     href: "/dashboard/agents",    icon: Bot             },
+  { label: "Apps",       href: "/dashboard/apps",      icon: AppWindow       },
+  { label: "MediMind",   href: "/dashboard/medimind",  icon: Brain           },
+  { label: "My Profile", href: "/dashboard/profile",   icon: UserCircle      },
 ];
 
 interface Props {

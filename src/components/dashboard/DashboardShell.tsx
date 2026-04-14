@@ -13,7 +13,7 @@ export default function DashboardShell({ children }: { children: ReactNode }) {
         onToggle={() => setCollapsed((c) => !c)}
       />
       <main
-        className={`transition-all duration-300 ease-in-out min-h-screen overflow-y-auto relative z-10 ${
+        className={`flex-1 min-w-0 transition-all duration-300 ease-in-out min-h-screen overflow-y-auto relative z-10 ${
           collapsed ? "ml-[78px]" : "ml-[248px]"
         }`}
       >
