@@ -509,4 +509,14 @@ input:-webkit-autofill:active {
     overflow: hidden;
     pointer-events: none;
   }
+
+  /* ── Gold border breathing effect ── */
+  @keyframes border-breathe {
+    0%, 100% { box-shadow: 0 0 0px rgba(212,169,65,0); border-color: rgba(212,169,65,0.6); }
+    50%       { box-shadow: 0 0 12px rgba(212,169,65,0.35), 0 0 4px rgba(212,169,65,0.2); border-color: rgba(212,169,65,0.9); }
+  }
+
+  .animate-border-breathe {
+    animation: border-breathe 2s ease-in-out infinite;
+  }
 }
