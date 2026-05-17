@@ -1,5 +1,54 @@
 @import "tailwindcss";
 
+/* ============================================
+   WORD EDITOR — Document canvas styles
+   Applied inside the white A4 paper area
+   ============================================ */
+
+.we-canvas h1 { font-size: 2em;    font-weight: 700; margin: 0.67em 0; color: #111; }
+.we-canvas h2 { font-size: 1.5em;  font-weight: 700; margin: 0.75em 0; color: #111; }
+.we-canvas h3 { font-size: 1.17em; font-weight: 600; margin: 0.83em 0; color: #111; }
+.we-canvas h4 { font-size: 1em;    font-weight: 600; margin: 1.12em 0; color: #111; }
+.we-canvas p  { margin: 0.4em 0; }
+.we-canvas ul { padding-left: 2em; list-style: disc;    margin: 0.5em 0; }
+.we-canvas ol { padding-left: 2em; list-style: decimal; margin: 0.5em 0; }
+.we-canvas li { margin: 0.2em 0; }
+.we-canvas blockquote {
+  border-left: 3px solid #d4a941;
+  padding-left: 1em;
+  margin: 1em 0;
+  color: #555;
+  font-style: italic;
+}
+.we-canvas pre {
+  background: #f4f4f4;
+  padding: 0.8em 1em;
+  border-radius: 4px;
+  font-family: "Courier New", monospace;
+  font-size: 0.9em;
+  overflow-x: auto;
+  margin: 0.5em 0;
+}
+.we-canvas a     { color: #4a86e8; text-decoration: underline; }
+.we-canvas hr    { border: none; border-top: 1px solid #ddd; margin: 1.2em 0; }
+.we-canvas table { border-collapse: collapse; width: 100%; margin: 0.5em 0; }
+.we-canvas td, .we-canvas th {
+  border: 1px solid #ddd;
+  padding: 6px 10px;
+  text-align: left;
+}
+.we-canvas th { background: #f5f5f5; font-weight: 600; }
+
+/* Placeholder when editor is empty */
+.we-content:empty:before {
+  content: attr(data-placeholder);
+  color: #aaa;
+  pointer-events: none;
+}
+
+/* Remove default focus outline on the editable area */
+.we-content:focus { outline: none; }
+
 :root {
   /* Colors will be injected dynamically from colors.ts */
   --background: #0a0a0a;

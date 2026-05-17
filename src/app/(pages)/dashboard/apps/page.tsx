@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Calculator, FileEdit, ExternalLink, AppWindow } from "lucide-react";
 
 const apps = [
@@ -26,6 +27,7 @@ const apps = [
   },
   {
     id: "word-editor",
+    href: "/dashboard/apps/word-editor",
     name: "Online Word File Editor",
     description:
       "A full-featured online document editor compatible with .docx files. Open, edit, format, and save Word documents directly in your browser — no Microsoft Office installation required. Collaborate in real time, export back to .docx, or save as PDF instantly.",
@@ -66,6 +68,7 @@ export default function AppsPage() {
         {apps.map(
           ({
             id,
+            href,
             name,
             description,
             icon: Icon,
@@ -137,10 +140,20 @@ export default function AppsPage() {
                       </ul>
                     </div>
 
-                    <button className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[var(--gold-primary)]/10 border border-[var(--gold-primary)]/25 text-[var(--gold-primary)] text-sm font-medium hover:bg-[var(--gold-primary)]/20 hover:border-[var(--gold-primary)]/40 transition-all duration-200 group/btn">
-                      <ExternalLink size={14} className="transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
-                      Open App
-                    </button>
+                    {href ? (
+                      <Link
+                        href={href}
+                        className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[var(--gold-primary)]/10 border border-[var(--gold-primary)]/25 text-[var(--gold-primary)] text-sm font-medium hover:bg-[var(--gold-primary)]/20 hover:border-[var(--gold-primary)]/40 transition-all duration-200 group/btn"
+                      >
+                        <ExternalLink size={14} className="transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                        Open App
+                      </Link>
+                    ) : (
+                      <button className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[var(--gold-primary)]/10 border border-[var(--gold-primary)]/25 text-[var(--gold-primary)] text-sm font-medium hover:bg-[var(--gold-primary)]/20 hover:border-[var(--gold-primary)]/40 transition-all duration-200 group/btn">
+                        <ExternalLink size={14} className="transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                        Open App
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

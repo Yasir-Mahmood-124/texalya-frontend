@@ -1,10 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { Brain, TrendingUp, CalendarCheck, FileText, ExternalLink, Sparkles } from "lucide-react";
 
 const agents = [
   {
     id: "medimind",
+    href: "/dashboard/medimind",
     name: "MediMind Agent",
     description:
       "An AI-powered medical assistant designed to support clinical workflows. Generate structured patient notes, get evidence-based diagnosis suggestions, and make faster clinical decisions — all powered by the latest medical knowledge.",
@@ -50,6 +52,7 @@ const agents = [
   },
   {
     id: "strategy-doc",
+    href: "/dashboard/agents/marketing-documents",
     name: "Strategy Document Generator Agent",
     description:
       "Turn your ideas into polished, professional strategy documents. From go-to-market plans and OKRs to competitive analyses and product roadmaps — this agent drafts comprehensive strategy documents aligned with your goals and business context.",
@@ -84,6 +87,7 @@ export default function AgentsPage() {
         {agents.map(
           ({
             id,
+            href,
             name,
             description,
             icon: Icon,
@@ -138,10 +142,20 @@ export default function AgentsPage() {
                 </div>
 
                 {/* Launch button */}
-                <button className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[var(--gold-primary)]/10 border border-[var(--gold-primary)]/25 text-[var(--gold-primary)] text-sm font-medium hover:bg-[var(--gold-primary)]/20 hover:border-[var(--gold-primary)]/40 transition-all duration-200 group/btn">
-                  <ExternalLink size={14} className="transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
-                  Launch Agent
-                </button>
+                {href ? (
+                  <Link
+                    href={href}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[var(--gold-primary)]/10 border border-[var(--gold-primary)]/25 text-[var(--gold-primary)] text-sm font-medium hover:bg-[var(--gold-primary)]/20 hover:border-[var(--gold-primary)]/40 transition-all duration-200 group/btn"
+                  >
+                    <ExternalLink size={14} className="transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                    Launch Agent
+                  </Link>
+                ) : (
+                  <button className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[var(--gold-primary)]/10 border border-[var(--gold-primary)]/25 text-[var(--gold-primary)] text-sm font-medium hover:bg-[var(--gold-primary)]/20 hover:border-[var(--gold-primary)]/40 transition-all duration-200 group/btn">
+                    <ExternalLink size={14} className="transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                    Launch Agent
+                  </button>
+                )}
               </div>
             </div>
           )
